@@ -6,9 +6,9 @@
     <meta name="theme-color" content="#fffdfd">
     <meta name="description" content="Dana Karen's personal homepage, portfolio, and living CV.">
     <title>dana karen : )</title>
-    <link rel="stylesheet" href="styles.css?rev=mobile-fit-3">
-    <script src="content.js" defer></script>
-    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="styles.css?rev=ia-1">
+    <script src="content.js?rev=ia-1" defer></script>
+    <script src="script.js?rev=ia-1" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#main">skip to the actual page ↓</a>
@@ -27,7 +27,7 @@
             <p class="lede" data-text="intro"></p>
             <p class="identity-line">age: <strong id="age">—</strong> <span class="pipe">/</span> currently: <strong data-text="location.current"></strong> <span class="pipe">/</span> mentally: <span class="elsewhere-secret" tabindex="0" aria-describedby="elsewhere-note"><strong data-text="location.mental"></strong><span id="elsewhere-note" class="secret-tip" role="tooltip"></span></span></p>
             <nav class="large-links" aria-label="page shortcuts">
-              <a href="#about">about me.</a><a href="#projects">projects.</a><a href="#writing">writing.</a><a href="#knowledge">i don't know.</a><a href="#contact">contact.</a><a href="?resume=1" class="alt-link">résumé.</a>
+              <a href="#about">about me.</a><a href="#projects">projects.</a><a href="#knowledge">i don't know.</a><a href="#writing">writing.</a><a href="#contact">contact.</a><a href="?resume=1" class="alt-link">résumé.</a>
             </nav>
             <span class="opening-aside" aria-hidden="true">// scroll awhile. this is a document, sorry ^_^ <span class="pink-debris">꒰ა ☆ ໒꒱</span></span>
           </div>
@@ -48,15 +48,11 @@
             <div class="contents-heading"><strong id="contents-title">contents</strong> <button type="button" id="contents-toggle" aria-expanded="true" aria-controls="contents-list">[hide]</button> <span class="secret-target" tabindex="0" aria-label="contents note: you are here, more or less">[?]<span class="secret-tip" aria-hidden="true">you are here, more or less</span></span></div>
             <ol id="contents-list">
               <li><a href="#about">about me</a></li>
-              <li><a href="#history">why?</a></li>
               <li><a href="#education">education</a></li>
-              <li><a href="#experience">things i have done</a></li>
               <li><a href="#projects">projects</a></li>
-              <li><a href="#writing">writing</a></li>
               <li><a href="#knowledge">i know / don't / want to</a></li>
-              <li><a href="#interests">things of interest</a></li>
-              <li><a href="#programs">programs / etc.</a></li>
-              <li><a href="#volunteer">volunteer / community</a></li>
+              <li><a href="#writing">writing</a></li>
+              <li><a href="#programs">programs / community / etc.</a></li>
               <li><a href="#contact">contact</a></li>
             </ol>
           </aside>
@@ -65,7 +61,6 @@
               <h2 class="wiki-title about-title" tabindex="0">about me <button type="button" class="inline-motif" aria-label="a small note beside about me">✧<span class="motif-tip" aria-hidden="true" data-motif="about"></span></button></h2>
               <div class="about-grid"><div id="about-biography" class="about-biography"></div><div class="wiki-note"><span class="wiki-note-heading">personal file</span><dl><dt>name</dt><dd data-text="name"></dd><dt>born</dt><dd><time datetime="2008-08-18T03:59">18 aug 2008, 03:59</time><br>america/chicago</dd><dt>here</dt><dd data-text="location.current"></dd><dt>elsewhere</dt><dd data-text="location.mental"></dd></dl></div></div>
               <aside class="quote-fragment quote-near-about" data-quote-slot="0"></aside>
-              <details id="history" class="history"><summary><span class="history-name">why?</span></summary><div id="why-content" class="history-inner"></div></details>
             </section>
 
             <section id="education" class="doc-section education-section">
@@ -73,17 +68,19 @@
               <div class="education-line"><strong data-text="education.class"></strong><span data-text="education.note"></span><span class="tiny-stray pink-debris" aria-hidden="true">:3</span></div>
             </section>
 
-            <section id="experience" class="doc-section experience-section">
-              <div class="terminal-command">$ cat ./experience.log</div><h2 class="small-title">things i have done : ) <span class="small-heading">(experience / things i am proud of)</span></h2>
-              <div id="experience-list" class="experience-list"></div>
-              <aside class="quote-fragment quote-after-experience" data-quote-slot="1"></aside><div class="after-log-note" aria-hidden="true">// probably not finished <span class="pink-debris">(¬‿¬)</span></div>
-            </section>
-
             <section id="projects" class="doc-section projects-section">
               <div class="terminal-command">$ ls -la ./projects/ <span aria-hidden="true">☆</span></div><h2 class="directory-title">/projects/ <button type="button" class="inline-motif" aria-label="a small note beside projects">✧<span class="motif-tip" aria-hidden="true" data-motif="projects"></span></button></h2>
               <div id="project-list" class="project-list"></div>
               <div class="margin-whisper" aria-hidden="true">// no screenshots yet. the boxes are holding their places. <span class="pink-debris">‧₊˚❀༉‧₊˚.</span></div>
               <button type="button" class="motif-button" id="motif-button" aria-expanded="false" aria-controls="motif-reveal">✧ inspect tiny star</button><p id="motif-reveal" hidden></p>
+              <aside class="quote-fragment quote-after-experience" data-quote-slot="1"></aside>
+            </section>
+
+            <section id="knowledge" class="doc-section knowledge-section">
+              <h2 class="plain-title secret-target knowledge-title" tabindex="0" aria-describedby="knowledge-title-note">notes on knowing things<span id="knowledge-title-note" class="secret-tip">i make things because i have questions.<br>this, so far, has failed to reduce the number of questions.</span></h2>
+              <div class="knowledge-grid"><div class="knowledge-column"><h3>i know <span aria-hidden="true">[✓]</span></h3><ul id="know-list"></ul></div><div class="knowledge-column"><h3>i don't know <span class="secret-target" tabindex="0" aria-label="a note: an honest inventory is allowed to have blanks">[?]<span class="secret-tip" aria-hidden="true">an honest inventory is allowed to have blanks</span></span></h3><div class="knowledge-note">// worked with; still learning</div><ul id="dont-know-list"></ul></div><div class="knowledge-column"><h3>i want to know <span aria-hidden="true">[→]</span></h3><ul id="want-know-list"></ul></div></div>
+              <p class="knowledge-footer">being explicit about the question is part of the work <span class="pink-debris" aria-hidden="true">(˶ᵔ ᵕ ᵔ˶)</span></p>
+              <aside class="quote-fragment quote-after-knowledge" data-quote-slot="3"></aside>
             </section>
 
             <section id="writing" class="doc-section writing-section">
@@ -93,25 +90,8 @@
               <aside class="quote-fragment quote-by-writing" data-quote-slot="2"></aside>
             </section>
 
-            <section id="knowledge" class="doc-section knowledge-section">
-              <h2 class="plain-title secret-target knowledge-title" tabindex="0" aria-describedby="knowledge-title-note">notes on knowing things<span id="knowledge-title-note" class="secret-tip">i make things because i have questions.<br>this, so far, has failed to reduce the number of questions.</span></h2>
-              <div class="knowledge-grid"><div class="knowledge-column"><h3>i know <span aria-hidden="true">[✓]</span></h3><ul id="know-list"></ul></div><div class="knowledge-column"><h3>i don't know <span class="secret-target" tabindex="0" aria-label="a note: an honest inventory is allowed to have blanks">[?]<span class="secret-tip" aria-hidden="true">an honest inventory is allowed to have blanks</span></span></h3><div class="knowledge-note">// worked with; still learning</div><ul id="dont-know-list"></ul></div><div class="knowledge-column"><h3>i want to know <span aria-hidden="true">[→]</span></h3><ul id="want-know-list"></ul><div class="knowledge-interests"><div class="knowledge-interests-label">// broader interests</div><ul id="want-know-interests"></ul></div></div></div>
-              <p class="knowledge-footer">being explicit about the question is part of the work <span class="pink-debris" aria-hidden="true">(˶ᵔ ᵕ ᵔ˶)</span></p>
-              <aside class="quote-fragment quote-after-knowledge" data-quote-slot="3"></aside>
-            </section>
-
-            <section id="interests" class="doc-section interests-section">
-              <h2 class="small-title">$ cat ./interests.txt</h2>
-              <dl id="interests-list" class="interests-list"></dl>
-              <small class="interests-note">// topics collect here; come back later <span class="pink-debris" aria-hidden="true">✧</span></small>
-            </section>
-
             <section id="programs" class="doc-section programs-section">
-              <h2 class="link-title">competitions / programs / ties / etc.</h2><p class="small-soft">// assorted institutional entanglements, eventually <span aria-hidden="true">🌙</span></p><ul id="program-list" class="plain-records"></ul>
-            </section>
-
-            <section id="volunteer" class="doc-section volunteer-section">
-              <h2 class="small-title">volunteer / community</h2><p data-text="volunteer"></p><span class="volunteer-debris" aria-hidden="true">(╥﹏╥) <span>not everything fits in a form</span></span>
+              <h2 class="link-title">programs / community / etc.</h2><p class="small-soft">// assorted institutional entanglements, eventually <span aria-hidden="true">🌙</span></p><ul id="program-list" class="plain-records"></ul><p data-text="volunteer" class="community-placeholder"></p><span class="volunteer-debris" aria-hidden="true">(╥﹏╥) <span>not everything fits in a form</span></span>
             </section>
 
             <section id="contact" class="doc-section contact-section">

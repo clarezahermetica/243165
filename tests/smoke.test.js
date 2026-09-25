@@ -79,10 +79,20 @@ test("every in-page anchor has a target", () => {
   for (const target of targets) assert.ok(ids.has(target), `Missing #${target}`);
 });
 
+test("homepage sections and contents follow the curated order", () => {
+  const sectionIds = [...html.matchAll(/<section id="([^"]+)" class="doc-section /g)].map((match) => match[1]);
+  assert.deepEqual(sectionIds, ["about", "education", "projects", "knowledge", "writing", "programs", "contact"]);
+  const contents = html.split('<ol id="contents-list">')[1].split("</ol>")[0];
+  const anchors = [...contents.matchAll(/href="#([^"]+)"/g)].map((match) => match[1]);
+  assert.deepEqual(anchors, sectionIds);
+  assert.doesNotMatch(html, /id="(?:history|experience|interests|volunteer)"|href="#(?:history|experience|interests|volunteer)"/);
+  assert.match(html, /id="program-list"[^]*?class="community-placeholder"/);
+});
+
 test("static assets resolve beneath the GitHub Pages project path", () => {
   const base = "https://clarezahermetica.github.io/243165/";
   const localAssets = [...html.matchAll(/(?:src|href)="([^"]+)"/g)].map((match) => match[1])
-    .filter((value) => /^(?:assets\/|(?:styles|content|script)\.js$|styles\.css(?:\?[^#]*)?$|index\.html$)/.test(value));
+    .filter((value) => /^(?:assets\/|(?:content|script)\.js(?:\?[^#]*)?$|styles\.css(?:\?[^#]*)?$|index\.html$)/.test(value));
   assert.ok(localAssets.length >= 4);
   for (const asset of localAssets) {
     assert.ok(new URL(asset, base).pathname.startsWith("/243165/"), `Wrong site path: ${asset}`);
@@ -163,11 +173,10 @@ test("print résumé uses only the professional summary and retains plain text s
 
 test("knowledge stays in the existing three columns and print includes only worked-with skills", () => {
   const data = context.window.siteContent.knowledge;
-  const section = html.slice(html.indexOf('id="knowledge"'), html.indexOf('id="interests"'));
+  const section = html.slice(html.indexOf('id="knowledge"'), html.indexOf('id="writing"'));
   const know = element("#know-list").innerHTML;
   const dontKnow = element("#dont-know-list").innerHTML;
   const questions = element("#want-know-list").innerHTML;
-  const interests = element("#want-know-interests").innerHTML;
   const printedSkills = element("#resume-content").innerHTML.split("<h2>Skills</h2>")[1].split("</section>")[0];
   assert.equal((section.match(/class="knowledge-column"/g) || []).length, 3);
   assert.match(section, /i don't know <span class="secret-target"/);
@@ -175,25 +184,23 @@ test("knowledge stays in the existing three columns and print includes only work
   assert.match(section, /i don't know[^]*?<\/h3><div class="knowledge-note">\/\/ worked with; still learning<\/div>/);
   assert.match(section, /i make things because i have questions\./);
   assert.match(section, /being explicit about the question is part of the work/);
-  assert.equal((know.match(/class="knowledge-group"/g) || []).length, 6);
-  assert.equal((dontKnow.match(/class="knowledge-group"/g) || []).length, 6);
-  assert.equal((questions.match(/<li>/g) || []).length, 6);
-  assert.equal((interests.match(/class="knowledge-group"/g) || []).length, 4);
-  assert.match(know, /PyTorch · Transformers · PEFT · TRL · LoRA · SFT/);
-  assert.match(dontKnow, /rlhf · dpo · grpo · rlvr/);
-  assert.match(questions, /why does every technical question eventually become a metaphysics problem\? \(lol\)/);
-  assert.match(interests, /black holes · strong gravity · compact objects/);
-  assert.equal((printedSkills.match(/<p>/g) || []).length, data.know.length);
+  assert.equal(know, "");
+  assert.equal(dontKnow, "");
+  assert.equal(questions, "");
+  assert.deepEqual(Array.from(data.know), []);
+  assert.deepEqual(Array.from(data.dontKnow), []);
+  assert.deepEqual(Array.from(data.wantToKnow.questions), []);
+  assert.equal((printedSkills.match(/<p>/g) || []).length, context.window.siteContent.resume.skills.length);
   assert.match(printedSkills, /React · Next\.js · Chrome APIs · Manifest V3/);
   assert.doesNotMatch(printedSkills, /rlhf|self-model|black holes|an honest inventory|i make things because|being explicit about the question/);
-  assert.doesNotMatch(know + dontKnow + questions + interests, /\[skill \/ method\]|\[currently learning\]|\[question pending\]/);
+  assert.doesNotMatch(section, /broader interests/);
 });
 
 test("website education stays unchanged while Cal Hacks has a contactable teammate secret", () => {
   const data = context.window.siteContent;
   assert.equal(data.profile.education.class, "class of 2026 · high school diploma");
   assert.equal(data.profile.education.note, "ditched a full-ride scholarship to my dream school to research, create, and build. we'll see how that goes. : )");
-  const educationSection = html.slice(html.indexOf('id="education"'), html.indexOf('id="experience"'));
+  const educationSection = html.slice(html.indexOf('id="education"'), html.indexOf('id="projects"'));
   assert.doesNotMatch(educationSection, /Cypress Springs High School|2022–2026/);
   const programs = element("#program-list").innerHTML;
   assert.match(programs, /Cal Hacks 13\.0.*Accepted — upcoming.*October 23–25, 2026.*San Francisco, California/s);
@@ -203,9 +210,8 @@ test("website education stays unchanged while Cal Hacks has a contactable teamma
   assert.match(element("#writing-list").innerHTML, /\[essay \/ note \/ paper title\]/);
 });
 
-test("the same three factual experience entries appear once in the website and résumé", () => {
+test("the three factual experience entries remain only in the résumé", () => {
   const entries = context.window.siteContent.experience;
-  const website = element("#experience-list").innerHTML;
   const printed = element("#resume-content").innerHTML;
   const printedExperience = printed.split("<h2>Experience</h2>")[1].split("</section>")[0];
   const escaped = (value) => value.replaceAll("&", "&amp;").replaceAll("'", "&#39;");
@@ -215,18 +221,13 @@ test("the same three factual experience entries appear once in the website and r
     ["Esports Team", "Founding secretary → president", "2024–2026", 5],
     ["Philosophy Club", "Vice president", "2025–2026", 5]
   ]);
-  assert.equal((website.match(/class="experience-entry"/g) || []).length, 3);
+  assert.doesNotMatch(html, /id="experience"|id="experience-list"|href="#experience"/);
   assert.equal((printedExperience.match(/class="resume-entry"/g) || []).length, 3);
-  for (const [index, entry] of entries.entries()) {
-    assert.ok(website.includes(`${String(index + 1).padStart(2, "0")} /`));
+  for (const entry of entries) {
     for (const value of [entry.organization, entry.role, entry.dates, ...entry.bullets]) {
-      assert.ok(website.includes(escaped(value)), `Website missing ${value}`);
       assert.ok(printedExperience.includes(escaped(value)), `Résumé missing ${value}`);
     }
   }
-  assert.match(website, /one of its earliest members.*approximately 10 to 50 students/s);
-  assert.match(website, /approximately 20 to \d+ students/);
-  assert.doesNotMatch(website, /Cypress Springs High School|founder|\[role \/ thing\]/i);
   assert.doesNotMatch(printedExperience, /Cypress Springs High School|Philosophy Club.*founder|awarded|won/i);
   assert.equal((printed.match(/Cypress Springs High School/g) || []).length, 1);
   assert.deepEqual(Array.from(context.window.siteContent.changelog), ["v0.1 — file created", "v0.2 — opened it up", "v0.3 — moved more things around"]);
@@ -240,7 +241,9 @@ test("Landling replaces only project 01 and prints a concise CP2 record", () => 
   const printedProjects = printed.split("<h2>Projects</h2>")[1].split("</section>")[0];
   assert.equal(project.name, "landling");
   assert.equal(project.status, "cp2 public · cp3 in progress");
-  assert.match(first, /\.\/projects\/01\/.*<h3>landling<\/h3>/s);
+  assert.match(first, /\.\/projects\/01\/.*<h3>landling <span class="secret-target active-project-marker"/s);
+  assert.match(first, /currently working on this/);
+  assert.equal((website.match(/class="secret-target active-project-marker"/g) || []).length, 1);
   assert.match(first, /experimental persona model, not nick land himself/);
   assert.match(first, /1,018 effective conversational examples/);
   assert.equal((first.match(/class="project-history-list"/g) || []).length, 1);
@@ -281,23 +284,23 @@ test("the document opens as a small homepage and quote slots are dispersed", () 
   assert.match(html, /<h1 class="masthead-name">/);
   assert.doesNotMatch(html, /a place to put<br>/);
   const slots = [...html.matchAll(/data-quote-slot="(\d)"/g)];
-  assert.deepEqual(slots.map((match) => match[1]), ["0", "1", "2", "3", "4"]);
-  assert.ok(slots[0].index < html.indexOf('id="history"'));
-  assert.ok(slots[1].index < html.indexOf('id="projects"'));
-  assert.ok(slots[2].index < html.indexOf('id="knowledge"'));
-  assert.ok(slots[3].index < html.indexOf('id="programs"'));
+  assert.deepEqual(slots.map((match) => match[1]), ["0", "1", "3", "2", "4"]);
+  assert.ok(slots[0].index < html.indexOf('id="education"'));
+  assert.ok(slots[1].index > html.indexOf('id="projects"'));
+  assert.ok(slots[2].index > html.indexOf('id="knowledge"'));
+  assert.ok(slots[3].index > html.indexOf('id="writing"'));
   assert.ok(slots[4].index > html.indexOf('id="contact"'));
   assert.match(element("#project-list").innerHTML, /\.\/projects\/01\//);
   assert.match(quoteNodes[0].textContent, /Space echoes.*Nick Land/);
   assert.match(quoteNodes[1].textContent, /Rules for happiness.*Immanuel Kant/);
-  assert.match(quoteNodes[2].textContent, /Only prisoners.*Mark Fisher/);
-  assert.equal(quoteNodes[3].textContent, "");
+  assert.equal(quoteNodes[2].textContent, "");
+  assert.match(quoteNodes[3].textContent, /Only prisoners.*Mark Fisher/);
   assert.match(quoteNodes[4].textContent, /miracle of a single flower.*unknown/);
   assert.match(motifNodes[0].textContent, /a little more than a short bio/);
 });
 
 test("future rooms remain placeholders and the player has local files without autoplay", () => {
-  assert.match(element("#interests-list").innerHTML, /studying.*\[topic \/ question\]/s);
+  assert.doesNotMatch(html, /id="interests"|id="interests-list"/);
   assert.match(element("#future-rooms").innerHTML, /goodreads knockoff.*photogallery/);
   assert.equal(element("#music-button").disabled, false);
   assert.equal(element("#music-next").disabled, false);
@@ -311,18 +314,9 @@ test("future rooms remain placeholders and the player has local files without au
   assert.doesNotMatch(html, /<audio[^>]*\bautoplay\b/i);
 });
 
-test("the original why disclosure holds four closed nested layers and the complete final paragraph", () => {
-  assert.match(html, /<details id="history" class="history"><summary><span class="history-name">why\?<\/span>/);
-  assert.doesNotMatch(html, /<h3>why /);
-  const essay = element("#why-content").innerHTML;
-  assert.equal((essay.match(/<details class="why-layer">/g) || []).length, 3);
-  assert.equal((essay.match(/<p>/g) || []).length, 39);
-  assert.match(essay, /<s>extraordinary<\/s>/);
-  assert.match(essay, /<s>very<\/s>/);
-  assert.match(essay, /<em>little<\/em>/);
-  assert.match(essay, /anyway\. i would very much like everyone to have a wand/);
-  assert.doesNotMatch(essay, /<details[^>]+\bopen\b/);
-  assert.match(html, /<a href="#history">why\?<\/a>/);
+test("why prose stays archived in data without a homepage disclosure", () => {
+  assert.equal(context.window.siteContent.whyLayers.length, 4);
+  assert.doesNotMatch(html, /id="history"|id="why-content"|href="#history"/);
 });
 
 test("music shuffle excludes the current track and slightly weights Artificial Angels", async () => {

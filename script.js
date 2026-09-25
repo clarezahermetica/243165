@@ -13,7 +13,6 @@
     version: data.metadata.version, ...data.profile, volunteer: data.volunteer
   });
   const withAge = (value) => String(value ?? "").replaceAll("{age}", String(ageAt(new Date())));
-  const essayMarkup = (value) => escapeHTML(value).replace(/~([^~]+)~/g, "<s>$1</s>").replace(/\*([^*]+)\*/g, "<em>$1</em>");
   const musicTracks = (data.music.tracks ?? []).filter((track) => /^assets\/music\/[^?#]+\.mp3$/i.test(track.src) && !track.src.includes(".."));
   let currentTrackIndex = -1;
   function pickMusicIndex(previous, random = Math.random) {
@@ -101,29 +100,20 @@
     const prettyDate = new Intl.DateTimeFormat("en-US", { year: "numeric", month: "short", day: "numeric", timeZone: "UTC" }).format(new Date(`${data.metadata.lastUpdated}T12:00:00Z`));
     ["#header-updated", "#footer-updated"].forEach((selector) => { const node = $(selector); node.dateTime = data.metadata.lastUpdated; node.textContent = prettyDate; });
     $("#currently-list").innerHTML = data.currently.map(({ label, value, valueFrom, citation }) => ({ label, value: valueFrom ? pathValue(valueFrom) : value, citation })).filter(({ value }) => String(value ?? "").trim()).map(({ label, value, citation }) => `<dt>${escapeHTML(label)}</dt><dd>${escapeHTML(value)}${citation ? ` <span class="secret-target citation-needed" tabindex="0" aria-label="citation needed: evidence withheld :3">${escapeHTML(citation)}<span class="secret-tip" aria-hidden="true">evidence withheld :3</span></span>` : ""}</dd>`).join("");
-    const layerContent = (layer) => `${layer.paragraphs.map((paragraph) => `<p>${essayMarkup(paragraph)}</p>`).join("")}${layer.footnote ? `<p class="why-footnote">${escapeHTML(layer.footnote)}</p>` : ""}`;
-    let nestedLayers = "";
-    for (let index = data.whyLayers.length - 1; index >= 1; index -= 1) {
-      const layer = data.whyLayers[index];
-      nestedLayers = `<details class="why-layer"><summary>${escapeHTML(layer.summary)}</summary><div class="why-layer-content">${layerContent(layer)}${nestedLayers}</div></details>`;
-    }
-    $("#why-content").innerHTML = layerContent(data.whyLayers[0]) + nestedLayers;
-    $("#experience-list").innerHTML = data.experience.map((item, index) => `<article class="experience-entry"><span class="experience-index">${String(index + 1).padStart(2, "0")} /</span><div><div class="experience-title"><strong>${escapeHTML(item.organization)}</strong><time>${escapeHTML(item.dates)}</time></div><div class="experience-org">role: ${escapeHTML(item.role)}</div><ul>${item.bullets.map((bullet) => `<li>${escapeHTML(bullet)}</li>`).join("")}</ul></div></article>`).join("");
     $("#project-list").innerHTML = data.projects.map((item, index) => {
       const links = Object.entries(item.links).filter(([, url]) => safeUrl(url)).map(([label, url]) => `<a href="${escapeHTML(safeUrl(url))}" target="_blank" rel="noopener noreferrer">${escapeHTML(item.linkLabels?.[label] ?? `${label} ↗`)}</a>`).join("");
       const path = `./projects/${String(index + 1).padStart(2, "0")}/`;
       const pathDisplay = index === 0 ? `<span class="secret-target project-path-secret" tabindex="0" aria-label="${path}: a note says missing image but emotionally present">${path}<span class="secret-tip" aria-hidden="true">// missing image but emotionally present</span></span>` : path;
       const description = Array.isArray(item.description) ? item.description.map((paragraph) => `<p>${escapeHTML(paragraph)}</p>`).join("") : escapeHTML(item.description);
       const history = Array.isArray(item.history) ? `<ol class="project-history-list">${item.history.map(({ version, note }) => `<li><strong>${escapeHTML(version)}</strong> — ${escapeHTML(note)}</li>`).join("")}</ol>` : escapeHTML(item.history);
-      return `<article class="project-entry"><div><div class="project-meta">drwxr-xr-x &nbsp; ${pathDisplay} <span>♡</span></div><h3>${escapeHTML(item.name)}</h3><dl class="project-details"><dt>status</dt><dd>${escapeHTML(item.status)}</dd><dt>year</dt><dd>${escapeHTML(item.year)}</dd><dt>summary</dt><dd>${escapeHTML(item.summary)}</dd><dt>details</dt><dd class="project-description">${description}</dd><dt>methods</dt><dd class="project-methods">${item.methods.map((method) => `<span>${escapeHTML(method)}</span>`).join(" ")}</dd>${links ? `<dt>links</dt><dd class="project-links">${links}</dd>` : ""}<dt>history</dt><dd>${history}</dd></dl><details class="project-ramble"><summary>(mindless rambles)</summary><p>${escapeHTML(item.ramble)}</p></details></div><div class="project-image" role="img" aria-label="placeholder for a future project image">${escapeHTML(item.image)}</div></article>`;
+      const activeMarker = item.active ? ` <span class="secret-target active-project-marker" tabindex="0" aria-label="active project: currently working on this">✳<span class="secret-tip" aria-hidden="true">currently working on this : )</span></span>` : "";
+      return `<article class="project-entry"><div><div class="project-meta">drwxr-xr-x &nbsp; ${pathDisplay} <span>♡</span></div><h3>${escapeHTML(item.name)}${activeMarker}</h3><dl class="project-details"><dt>status</dt><dd>${escapeHTML(item.status)}</dd><dt>year</dt><dd>${escapeHTML(item.year)}</dd><dt>summary</dt><dd>${escapeHTML(item.summary)}</dd><dt>details</dt><dd class="project-description">${description}</dd><dt>methods</dt><dd class="project-methods">${item.methods.map((method) => `<span>${escapeHTML(method)}</span>`).join(" ")}</dd>${links ? `<dt>links</dt><dd class="project-links">${links}</dd>` : ""}<dt>history</dt><dd>${history}</dd></dl><details class="project-ramble"><summary>(mindless rambles)</summary><p>${escapeHTML(item.ramble)}</p></details></div><div class="project-image" role="img" aria-label="placeholder for a future project image">${escapeHTML(item.image)}</div></article>`;
     }).join("");
     $("#writing-list").innerHTML = data.writing.map((item) => `<li><span>${safeUrl(item.url) ? `<a href="${escapeHTML(safeUrl(item.url))}" target="_blank" rel="noopener noreferrer">${escapeHTML(item.title)} ↗</a>` : `<span class="archive-title">${escapeHTML(item.title)}</span>`}</span><span class="archive-kind">${escapeHTML(item.kind)}</span><time>${escapeHTML(item.date)}</time></li>`).join("");
     $("#know-list").innerHTML = knowledgeGroups(data.knowledge.know);
     $("#dont-know-list").innerHTML = knowledgeGroups(data.knowledge.dontKnow);
     $("#want-know-list").innerHTML = data.knowledge.wantToKnow.questions.map((question) => `<li>${escapeHTML(question)}</li>`).join("");
-    $("#want-know-interests").innerHTML = knowledgeGroups(data.knowledge.wantToKnow.interests);
-    $("#interests-list").innerHTML = data.interests.filter(({ value }) => String(value ?? "").trim()).map(({ label, value }) => `<dt>${escapeHTML(label)}</dt><dd>${escapeHTML(value)}</dd>`).join("");
-    $("#program-list").innerHTML = data.programs.map((item, index) => {
+    $("#program-list").innerHTML = data.involvement.map((item, index) => {
       const invite = item.teammates;
       const email = invite ? safeUrl(`mailto:${data.contact.email}?subject=${encodeURIComponent(invite.emailSubject)}`) : "";
       const teammateNote = invite ? `<div class="teammate-invite"><button type="button" class="teammate-toggle" aria-expanded="false" aria-controls="teammate-message-${index}">${escapeHTML(invite.prompt)}</button><div class="teammate-message" id="teammate-message-${index}"><strong>${escapeHTML(invite.heading)}</strong><p>${escapeHTML(invite.message)}</p><a href="${escapeHTML(email)}">[email me ↗]</a></div></div>` : "";
@@ -164,14 +154,14 @@
       }
       return `<div class="resume-entry"><div class="resume-entry-head"><strong>${escapeHTML(item.name)}</strong><span>${escapeHTML(item.year)}</span></div><div>${escapeHTML(item.summary)} ${escapeHTML(item.description)}</div><div class="resume-note">${escapeHTML(item.methods.join(" · "))}</div></div>`;
     }).join("");
-    const programs = data.programs.map((item) => `<div class="resume-entry"><div class="resume-entry-head"><strong>${escapeHTML(item.name)}</strong><span>${escapeHTML(item.dates)}</span></div><div>${escapeHTML(item.status)} · ${escapeHTML(item.location)}</div></div>`).join("");
+    const programs = data.involvement.filter((item) => item.category === "program").map((item) => `<div class="resume-entry"><div class="resume-entry-head"><strong>${escapeHTML(item.name)}</strong><span>${escapeHTML(item.dates)}</span></div><div>${escapeHTML(item.status)} · ${escapeHTML(item.location)}</div></div>`).join("");
     const education = data.profile.resumeEducation;
     $("#resume-content").innerHTML = [
       resumeSection("professional summary", `<p>${escapeHTML(data.profile.professionalSummary)}</p>`),
       resumeSection("Education", `<div class="resume-entry"><div class="resume-entry-head"><strong>${escapeHTML(education.school)}</strong><span>${escapeHTML(education.dates)}</span></div><div>${escapeHTML(education.credential)}</div></div>`),
       resumeSection("Experience", experience),
       resumeSection("Projects", projects),
-      resumeSection("Skills", data.knowledge.know.map(({ label, items }) => `<p><strong>${escapeHTML(label)}:</strong> ${items.map(escapeHTML).join(" · ")}</p>`).join("")),
+      resumeSection("Skills", data.resume.skills.map(({ label, items }) => `<p><strong>${escapeHTML(label)}:</strong> ${items.map(escapeHTML).join(" · ")}</p>`).join("")),
       resumeSection("Programs / events", programs),
       resumeSection("Volunteer / community", `<p>${escapeHTML(data.volunteer)}</p>`)
     ].join("");

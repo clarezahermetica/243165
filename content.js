@@ -30,6 +30,7 @@ window.siteContent = {
     education: { class: "class of 2026 · high school diploma", note: "ditched a full-ride scholarship to my dream school to research, create, and build. we'll see how that goes. : )" },
     resumeEducation: { school: "Cypress Springs High School", credential: "High school diploma", dates: "2022–2026 · Class of 2026" }
   },
+  // Archived prose for a possible later page; not rendered on the homepage.
   whyLayers: [
   {
     "summary": "why?",
@@ -148,6 +149,7 @@ window.siteContent = {
   projects: [
     {
       name: "landling",
+      active: true,
       year: "2026",
       status: "cp2 public · cp3 in progress",
       summary: "an experimental language-model persona exploring learned voice, behavioral consistency, and identity, descended from nick land's public writing.",
@@ -185,47 +187,23 @@ window.siteContent = {
     { title: "[fragment from the archive]", kind: "fragment", date: "[date]", url: "" }
   ],
   knowledge: {
-    know: [
+    know: [],
+    dontKnow: [],
+    wantToKnow: { questions: [], interests: [] }
+  },
+  resume: {
+    skills: [
       { label: "Languages & web", items: ["Python", "JavaScript", "TypeScript", "C++", "HTML", "CSS"] },
       { label: "Machine learning", items: ["PyTorch", "Transformers", "PEFT", "TRL", "LoRA", "SFT", "model fine-tuning"] },
       { label: "Data & experimentation", items: ["dataset construction", "preprocessing", "conversation formatting", "model evaluation"] },
       { label: "Web & browser development", items: ["React", "Next.js", "Chrome APIs", "Manifest V3"] },
       { label: "Networking", items: ["HTTP(S) proxies", "CONNECT tunneling", "TCP/IP", "sockets", "request routing", "TLS debugging"] },
       { label: "Tools & infrastructure", items: ["Git", "Linux", "shell", "Jupyter", "Hugging Face", "Vercel"] }
-    ],
-    dontKnow: [
-      { label: "deep learning", items: ["transformer internals", "attention", "learned representations", "optimization"] },
-      { label: "post-training", items: ["rlhf", "dpo", "grpo", "rlvr", "distillation", "deeper sft methodology"] },
-      { label: "reinforcement learning", items: ["policy optimization", "reward design", "reinforcement learning environments"] },
-      { label: "model science", items: ["mechanistic interpretability", "behavioral evaluations", "understanding why models behave the way they do"] },
-      { label: "training systems", items: ["distributed training", "scaling", "computational efficiency"] },
-      { label: "data & research methodology", items: ["synthetic data", "experimental design", "construct validity", "identifying confounding variables"] }
-    ],
-    wantToKnow: {
-      questions: [
-        "how much of a model's personality is learned, and how much are we giving it through context?",
-        "can a model instantiate a concept without understanding it the way we do?",
-        "what counts as evidence for a model having a self-model?",
-        "how much agency is in the model, and how much is in the observer?",
-        "how can we distinguish emotional behavior from something genuinely analogous to emotion in artificial intelligence?",
-        "why does every technical question eventually become a metaphysics problem? (lol)"
-      ],
-      interests: [
-        { label: "artificial minds", items: ["machine belief", "identity", "nonhuman cognition", "human-ai interaction"] },
-        { label: "philosophy", items: ["philosophy of mind", "cybernetics", "accelerationism", "metaphysics"] },
-        { label: "astrophysics", items: ["black holes", "strong gravity", "compact objects", "early-universe cosmology", "gravity and information"] },
-        { label: "research", items: ["experimental design", "behavioral analysis", "figuring out whether an experiment is actually measuring what i think it's measuring"] }
-      ]
-    }
+    ]
   },
-  interests: [
-    { label: "studying", value: "[topic / question]" },
-    { label: "people", value: "[thinker / artist / person]" },
-    { label: "scenes", value: "[group / community / internet corner]" },
-    { label: "returning to", value: "[recurring interest / obsession]" }
-  ],
-  programs: [
+  involvement: [
     {
+      category: "program",
       name: "Cal Hacks 13.0",
       status: "Accepted — upcoming",
       dates: "October 23–25, 2026",

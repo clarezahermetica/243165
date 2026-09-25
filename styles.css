@@ -285,6 +285,9 @@
   .elsewhere-secret{display:inline-block;text-decoration:underline;text-decoration-style:dotted;text-decoration-color:var(--pink-4)}
   .elsewhere-secret .secret-tip{left:auto;right:0;width:260px}
   .project-path-secret:hover,.project-path-secret:focus-visible{text-decoration:underline;text-decoration-style:dotted}
+  .active-project-marker{display:inline-block;margin-left:3px;color:var(--pink-4);font:11px var(--mono);vertical-align:middle}
+  .active-project-marker .secret-tip{font-weight:400;letter-spacing:0}
+  .community-placeholder{font-size:12px;margin:8px 0 2px}
   .contents-heading .secret-target{font:10px var(--mono);color:var(--pink-4)}
   .knowledge-column h3 .secret-target{color:var(--pink-4)}
   .contact-list{display:block;padding:0;margin:6px 0 8px}
