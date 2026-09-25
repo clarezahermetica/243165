@@ -82,11 +82,11 @@ test("every in-page anchor has a target", () => {
 test("static assets resolve beneath the GitHub Pages project path", () => {
   const base = "https://clarezahermetica.github.io/243165/";
   const localAssets = [...html.matchAll(/(?:src|href)="([^"]+)"/g)].map((match) => match[1])
-    .filter((value) => /^(?:assets\/|(?:styles|content|script)\.js$|styles\.css$|index\.html$)/.test(value));
+    .filter((value) => /^(?:assets\/|(?:styles|content|script)\.js$|styles\.css(?:\?[^#]*)?$|index\.html$)/.test(value));
   assert.ok(localAssets.length >= 4);
   for (const asset of localAssets) {
     assert.ok(new URL(asset, base).pathname.startsWith("/243165/"), `Wrong site path: ${asset}`);
-    assert.ok(fs.existsSync(path.join(root, asset)), `Missing asset: ${asset}`);
+    assert.ok(fs.existsSync(path.join(root, asset.split(/[?#]/)[0])), `Missing asset: ${asset}`);
   }
   const tracks = context.window.siteContent.music.tracks;
   assert.equal(tracks.length, 17);
