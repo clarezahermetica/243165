@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#fffdfd">
+    <meta name="description" content="Dana Karen's personal homepage, portfolio, and living CV.">
+    <title>dana karen : )</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="content.js" defer></script>
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">skip to the actual page ↓</a>
+    <div class="page-shell" id="web-page">
+      <header class="masthead" id="home">
+        <div class="masthead-top"><span>~/index.html <span aria-hidden="true">✧</span></span><span class="masthead-right">v<span data-text="version"></span> / last edit <time id="header-updated"></time></span></div>
+        <h1 class="masthead-name"><a href="#home" aria-label="dana karen, back to top">[dana karen]</a><small>personal homepage / cv / whatever : )</small></h1>
+        <div class="masthead-bottom"><span>// this file keeps changing <span class="pink-debris" aria-hidden="true">⋆.˚˖࿔ ࣪</span></span><a href="?resume=1">[print résumé]</a></div>
+      </header>
+
+      <main id="main">
+        <section class="opening" aria-label="introduction and page directory">
+          <div class="opening-main">
+            <div class="terminal-readout"><div><span class="terminal-prompt">$</span> whoami</div><div class="terminal-answer">dana karen <span class="pink-debris" aria-hidden="true">: )</span></div><div><span class="terminal-prompt">$</span> pwd</div><div class="terminal-answer"><span class="secret-target" tabindex="0">/houston/mentally/everywhere<span class="secret-tip" aria-hidden="true">// the path is mostly metaphorical</span></span> <span aria-hidden="true">☆</span></div><div class="terminal-comment"><span class="secret-target" tabindex="0">// manually maintained<span class="secret-tip" aria-hidden="true">// this file keeps mutating :3</span></span> <span aria-hidden="true">^_^</span></div></div>
+            <div class="notice-line"><span class="tiny-pink">✧</span> hello world</div>
+            <p class="lede" data-text="intro"></p>
+            <p class="identity-line">age: <strong id="age">—</strong> <span class="pipe">/</span> currently: <strong data-text="location.current"></strong> <span class="pipe">/</span> mentally: <span class="elsewhere-secret" tabindex="0" aria-describedby="elsewhere-note"><strong data-text="location.mental"></strong><span id="elsewhere-note" class="secret-tip" role="tooltip"></span></span></p>
+            <nav class="large-links" aria-label="page shortcuts">
+              <a href="#about">about me.</a><a href="#projects">projects.</a><a href="#writing">writing.</a><a href="#knowledge">i don't know.</a><a href="#contact">contact.</a><a href="?resume=1" class="alt-link">résumé.</a>
+            </nav>
+            <span class="opening-aside" aria-hidden="true">// scroll awhile. this is a document, sorry ^_^ <span class="pink-debris">꒰ა ☆ ໒꒱</span></span>
+          </div>
+          <aside class="opening-side">
+            <section class="currently" id="currently" aria-labelledby="currently-title">
+              <div class="box-topline"><span id="currently-title">$ cat currently.txt</span><span aria-hidden="true">🪷</span></div>
+              <dl id="currently-list"></dl>
+              <div class="box-foot">localtime: <time id="chicago-clock"></time></div>
+            </section>
+            <div class="side-annotation"><span aria-hidden="true">↖</span> tended<br><span class="small-soft">like a tiny garden</span></div>
+            <figure class="gif-object"><img src="assets/princess-bubblegum-science-tags.gif" width="500" height="302" alt="princess bubblegum at a cluttered desk with science equipment in an animated gif" loading="lazy"><figcaption>lastrecordedvideoofme.gif</figcaption></figure>
+            <section class="music-module" aria-label="tiny local music player"><div>♪ $ play ./music/</div><div id="music-track">[track pending]</div><div class="music-controls"><button type="button" id="music-button" disabled>[play]</button><button type="button" id="music-next" disabled>[next]</button><span id="music-status" role="status" aria-live="polite">no mp3 yet :3</span></div><audio id="music-audio" preload="none"></audio></section>
+          </aside>
+        </section>
+
+        <div class="document-layout">
+          <aside class="contents" aria-labelledby="contents-title">
+            <div class="contents-heading"><strong id="contents-title">contents</strong> <button type="button" id="contents-toggle" aria-expanded="true" aria-controls="contents-list">[hide]</button> <span class="secret-target" tabindex="0" aria-label="contents note: you are here, more or less">[?]<span class="secret-tip" aria-hidden="true">you are here, more or less</span></span></div>
+            <ol id="contents-list">
+              <li><a href="#about">about me</a></li>
+              <li><a href="#history">why?</a></li>
+              <li><a href="#education">education</a></li>
+              <li><a href="#experience">things i have done</a></li>
+              <li><a href="#projects">projects</a></li>
+              <li><a href="#writing">writing</a></li>
+              <li><a href="#knowledge">i know / don't / want to</a></li>
+              <li><a href="#interests">things of interest</a></li>
+              <li><a href="#programs">programs / etc.</a></li>
+              <li><a href="#volunteer">volunteer / community</a></li>
+              <li><a href="#contact">contact</a></li>
+            </ol>
+          </aside>
+          <div class="document-content">
+            <section id="about" class="doc-section about-section">
+              <h2 class="wiki-title about-title" tabindex="0">about me <button type="button" class="inline-motif" aria-label="a small note beside about me">✧<span class="motif-tip" aria-hidden="true" data-motif="about"></span></button></h2>
+              <div class="about-grid"><div id="about-biography" class="about-biography"></div><div class="wiki-note"><span class="wiki-note-heading">personal file</span><dl><dt>name</dt><dd data-text="name"></dd><dt>born</dt><dd><time datetime="2008-08-18T03:59">18 aug 2008, 03:59</time><br>america/chicago</dd><dt>here</dt><dd data-text="location.current"></dd><dt>elsewhere</dt><dd data-text="location.mental"></dd></dl></div></div>
+              <aside class="quote-fragment quote-near-about" data-quote-slot="0"></aside>
+              <details id="history" class="history"><summary><span class="history-name">why?</span></summary><div id="why-content" class="history-inner"></div></details>
+            </section>
+
+            <section id="education" class="doc-section education-section">
+              <h2 class="plain-title">education <span aria-hidden="true">✳</span></h2>
+              <div class="education-line"><strong data-text="education.class"></strong><span data-text="education.note"></span><span class="tiny-stray pink-debris" aria-hidden="true">:3</span></div>
+            </section>
+
+            <section id="experience" class="doc-section experience-section">
+              <div class="terminal-command">$ cat ./experience.log</div><h2 class="small-title">things i have done : ) <span class="small-heading">(experience / things i am proud of)</span></h2>
+              <div id="experience-list" class="experience-list"></div>
+              <aside class="quote-fragment quote-after-experience" data-quote-slot="1"></aside><div class="after-log-note" aria-hidden="true">// probably not finished <span class="pink-debris">(¬‿¬)</span></div>
+            </section>
+
+            <section id="projects" class="doc-section projects-section">
+              <div class="terminal-command">$ ls -la ./projects/ <span aria-hidden="true">☆</span></div><h2 class="directory-title">/projects/ <button type="button" class="inline-motif" aria-label="a small note beside projects">✧<span class="motif-tip" aria-hidden="true" data-motif="projects"></span></button></h2>
+              <div id="project-list" class="project-list"></div>
+              <div class="margin-whisper" aria-hidden="true">// no screenshots yet. the boxes are holding their places. <span class="pink-debris">‧₊˚❀༉‧₊˚.</span></div>
+              <button type="button" class="motif-button" id="motif-button" aria-expanded="false" aria-controls="motif-reveal">✧ inspect tiny star</button><p id="motif-reveal" hidden></p>
+            </section>
+
+            <section id="writing" class="doc-section writing-section">
+              <h2 class="directory-title">index of /writing/ <span class="heading-motif" aria-hidden="true">✎</span></h2>
+              <div class="archive-labels"><span>title / file</span><span>kind</span><span>date</span></div><ul id="writing-list" class="writing-list"></ul>
+              <p class="archive-bottom">end of currently available records<span class="secret-target" tabindex="0" aria-label="archive note: still collecting fragments">_<span class="secret-tip" aria-hidden="true">// still collecting fragments</span></span> <span class="pink-debris" aria-hidden="true">✧ ⋆</span></p>
+              <aside class="quote-fragment quote-by-writing" data-quote-slot="2"></aside>
+            </section>
+
+            <section id="knowledge" class="doc-section knowledge-section">
+              <h2 class="plain-title secret-target knowledge-title" tabindex="0" aria-describedby="knowledge-title-note">notes on knowing things<span id="knowledge-title-note" class="secret-tip">i make things because i have questions.<br>this, so far, has failed to reduce the number of questions.</span></h2>
+              <div class="knowledge-grid"><div class="knowledge-column"><h3>i know <span aria-hidden="true">[✓]</span></h3><ul id="know-list"></ul></div><div class="knowledge-column"><h3>i don't know <span class="secret-target" tabindex="0" aria-label="a note: an honest inventory is allowed to have blanks">[?]<span class="secret-tip" aria-hidden="true">an honest inventory is allowed to have blanks</span></span></h3><div class="knowledge-note">// worked with; still learning</div><ul id="dont-know-list"></ul></div><div class="knowledge-column"><h3>i want to know <span aria-hidden="true">[→]</span></h3><ul id="want-know-list"></ul><div class="knowledge-interests"><div class="knowledge-interests-label">// broader interests</div><ul id="want-know-interests"></ul></div></div></div>
+              <p class="knowledge-footer">being explicit about the question is part of the work <span class="pink-debris" aria-hidden="true">(˶ᵔ ᵕ ᵔ˶)</span></p>
+              <aside class="quote-fragment quote-after-knowledge" data-quote-slot="3"></aside>
+            </section>
+
+            <section id="interests" class="doc-section interests-section">
+              <h2 class="small-title">$ cat ./interests.txt</h2>
+              <dl id="interests-list" class="interests-list"></dl>
+              <small class="interests-note">// topics collect here; come back later <span class="pink-debris" aria-hidden="true">✧</span></small>
+            </section>
+
+            <section id="programs" class="doc-section programs-section">
+              <h2 class="link-title">competitions / programs / ties / etc.</h2><p class="small-soft">// assorted institutional entanglements, eventually <span aria-hidden="true">🌙</span></p><ul id="program-list" class="plain-records"></ul>
+            </section>
+
+            <section id="volunteer" class="doc-section volunteer-section">
+              <h2 class="small-title">volunteer / community</h2><p data-text="volunteer"></p><span class="volunteer-debris" aria-hidden="true">(╥﹏╥) <span>not everything fits in a form</span></span>
+            </section>
+
+            <section id="contact" class="doc-section contact-section">
+              <div class="terminal-command">$ finger dana</div><h2 class="plain-title">contact <span class="contact-smile">: )</span></h2>
+              <p class="contact-intro">[other internet habitats may appear here later]</p>
+              <div class="contact-list"><a id="email-link" href="#">email me : )</a><span id="instagram-slot" class="contact-social"></span><span id="substack-slot" class="contact-social"></span><a id="huggingface-link" href="#">hugging face ↗</a><a id="github-link" href="#">github ↗</a><span id="x-slot" class="contact-social"></span></div>
+            </section>
+          </div>
+        </div>
+
+        <section class="bottom-drawer" aria-label="small site extras">
+          <div class="drawer-cell"><div class="drawer-heading">changelog.txt <span class="pink-debris" aria-hidden="true">☆</span></div><ul id="changelog-list"></ul><div id="future-rooms" class="future-rooms"></div></div>
+          <div class="drawer-cell party-cell"><div class="drawer-heading">// questionable button</div><button type="button" id="confetti-button" class="party-button">[ deploy confetti cannon :3 ]</button><p id="party-status" role="status" aria-live="polite">// use responsibly, or don't</p></div>
+        </section>
+      </main>
+
+      <footer class="site-footer"><div class="footer-top"><span>dana karen / 2026—</span><span>🪷 ✧ : )</span></div><p>this page is under construction forever. <span class="small-soft">best viewed with a computer, unfortunately.</span></p><aside class="footer-fragment" data-quote-slot="4"></aside><div class="footer-links"><a href="#home">[top]</a><a href="?resume=1">[print résumé]</a><span>[ html ]</span><span>[ css ]</span><span>[ js ]</span></div><div class="footer-last">last modified <time id="footer-updated"></time> <span class="pink-debris" aria-hidden="true">⋆｡°✩ 🌸</span> <button type="button" id="star-toggle" class="star-toggle" aria-label="toggle a tiny star" aria-pressed="false">☆</button></div></footer>
+      <span class="marginalia marginalia-one" aria-hidden="true">🪷<br>✧</span><span class="marginalia marginalia-two" aria-hidden="true">[∞]<br>☆</span><span class="marginalia marginalia-three" aria-hidden="true">:3<br>↘</span>
+      <span class="page-debris debris-a pink-debris" aria-hidden="true">‧₊˚❀༉‧₊˚.</span><button type="button" class="page-debris debris-b debris-interactive" id="debris-cycle" aria-label="cycle a stray kaomoji"><span id="debris-face">૮ ˶ᵔ ᵕ ᵔ˶ ა</span><span class="secret-tip" aria-hidden="true">click for another face</span></button><span class="page-debris debris-c pink-debris" aria-hidden="true">(╥﹏╥) ✧</span><span class="page-debris debris-d" aria-hidden="true">🕯️<br>⋆</span><span class="page-debris debris-e pink-debris" aria-hidden="true">:3<br>☁️</span><span class="page-debris debris-f" aria-hidden="true">(づ｡◕‿‿◕｡)づ</span>
+      <pre class="ascii-shrine" aria-hidden="true">⠀⠀⠀⠀⠀⠀⠀⠘⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠠⡦⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⢠⡦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⡀⠀⠀⠘⠵⠃⠀⠀⣥⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⡇⠀⠀⠀⠀⠀⠀⠀⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⣰⢷⠀⠀⠀⠀⠀⠀⠀⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠈⠙⢧⣠⠛⠂⠀⠀⠀⠀⢐⣿⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠈⡏⠀⠀⠀⠀⠀⠀⡼⠀⢧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠃⠀⠀⠀⠀⣀⡜⠁⠀⠈⠣⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠐⠳⠯⣅⠀⠀⠀⠀⠀⣨⠽⠖⠂⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠈⠳⡀⠀⢀⡞⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢯⠀⡽⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣶⠇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠍⠀⠀⠀⡔⠒⢦⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠳⠤⠞⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⡼⣀⣀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢱⠃⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⠀⠀⠀⠈⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠹⠁⠀⠀⠀⠀⠀⠀⠀⠀</pre>
+    </div>
+
+    <dialog id="resume-dialog" class="resume-dialog" aria-labelledby="resume-dialog-title">
+      <div class="dialog-titlebar"><strong id="resume-dialog-title">resume.txt (?)</strong><button type="button" id="resume-close" aria-label="close résumé dialog">[x]</button></div>
+      <div class="dialog-body"><p>ahaha, this is my résumé!<br>does this count as a résumé...? i'm not sure.<br>oh well. here's the printed version : )</p><button type="button" id="dialog-print">[ print / save as pdf ]</button><div class="dialog-download-label">click download ↓</div><button type="button" id="resume-download" aria-disabled="true">[ download résumé ]<span class="secret-tip" aria-hidden="true">not wired yet lol</span></button></div>
+    </dialog>
+
+    <div id="resume-page" class="resume-page" aria-label="Printable résumé">
+      <div class="resume-controls"><a href="index.html">← back to site</a><button type="button" id="print-button">print / save PDF</button></div>
+      <header class="resume-header"><h1 id="resume-name"></h1><p id="resume-contact"></p></header>
+      <div id="resume-content"></div>
+    </div>
+    <div id="confetti-layer" aria-hidden="true"></div>
+  </body>
+</html>
