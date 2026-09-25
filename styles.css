@@ -87,7 +87,9 @@
   .history-inner{padding:7px 9px 3px;background:#f8f8f8;border-top:1px dotted #bbb}
   .education-section{margin-bottom:16px;padding-bottom:0}
   .plain-title{font:700 15px/1.15 "Times New Roman",Times,serif!important}
-  .education-section .plain-title{text-decoration:underline;text-decoration-color:var(--pink-4)}
+  .document-heading{border-bottom:1px solid #777;padding-bottom:2px}
+  .education-section .plain-title,.plans-section .plain-title{text-decoration:underline;text-decoration-color:var(--pink-4)}
+  .plans-section{margin-bottom:16px;padding-bottom:0}
   .education-line{gap:11px}
   .education-line strong{font:700 12px var(--mono)}
   .education-line span{font-size:12px}
@@ -153,6 +155,7 @@
   .knowledge-footer{margin-top:4px!important;font-size:10px}
   .programs-section{margin-bottom:15px}
   .link-title{font:700 14px/1.2 "Times New Roman",Times,serif!important;text-decoration:underline;text-decoration-color:var(--pink-4)}
+  .programs-section .document-heading{font-size:15px!important}
   .programs-section .small-soft{font-size:10px}
   .plain-records{margin-top:5px;font:11px var(--mono)}
   .plain-records li{padding:3px 0;border-bottom:1px dotted #aaa}

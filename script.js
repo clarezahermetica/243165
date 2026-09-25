@@ -54,6 +54,10 @@
   const ageArticleFor = (age) => (age === 8 || age === 11 || age === 18 || age === 19 || (age >= 80 && age < 90) ? "an" : "a");
   function renderBiography() {
     renderedBiographyAge = ageAt(new Date());
+    if (!data.profile.about.showOnHomepage) {
+      $("#about-biography").innerHTML = "";
+      return;
+    }
     $("#about-biography").innerHTML = data.profile.about.paragraphs.map((paragraph, paragraphIndex) => {
       let content = escapeHTML(paragraph.replaceAll("{ageArticle}", ageArticleFor(renderedBiographyAge)).replaceAll("{age}", String(renderedBiographyAge))).replace(/\n/g, "<br>");
       data.profile.about.secrets.forEach((secret, secretIndex) => {
@@ -100,6 +104,9 @@
     const prettyDate = new Intl.DateTimeFormat("en-US", { year: "numeric", month: "short", day: "numeric", timeZone: "UTC" }).format(new Date(`${data.metadata.lastUpdated}T12:00:00Z`));
     ["#header-updated", "#footer-updated"].forEach((selector) => { const node = $(selector); node.dateTime = data.metadata.lastUpdated; node.textContent = prettyDate; });
     $("#currently-list").innerHTML = data.currently.map(({ label, value, valueFrom, citation }) => ({ label, value: valueFrom ? pathValue(valueFrom) : value, citation })).filter(({ value }) => String(value ?? "").trim()).map(({ label, value, citation }) => `<dt>${escapeHTML(label)}</dt><dd>${escapeHTML(value)}${citation ? ` <span class="secret-target citation-needed" tabindex="0" aria-label="citation needed: evidence withheld :3">${escapeHTML(citation)}<span class="secret-tip" aria-hidden="true">evidence withheld :3</span></span>` : ""}</dd>`).join("");
+    const plans = $("#plans-list");
+    plans.innerHTML = data.plans.map(({ text }) => `<li>${escapeHTML(text)}</li>`).join("");
+    plans.hidden = data.plans.length === 0;
     $("#project-list").innerHTML = data.projects.map((item, index) => {
       const links = Object.entries(item.links).filter(([, url]) => safeUrl(url)).map(([label, url]) => `<a href="${escapeHTML(safeUrl(url))}" target="_blank" rel="noopener noreferrer">${escapeHTML(item.linkLabels?.[label] ?? `${label} ↗`)}</a>`).join("");
       const path = `./projects/${String(index + 1).padStart(2, "0")}/`;

@@ -81,12 +81,23 @@ test("every in-page anchor has a target", () => {
 
 test("homepage sections and contents follow the curated order", () => {
   const sectionIds = [...html.matchAll(/<section id="([^"]+)" class="doc-section /g)].map((match) => match[1]);
-  assert.deepEqual(sectionIds, ["about", "education", "projects", "knowledge", "writing", "programs", "contact"]);
+  assert.deepEqual(sectionIds, ["about", "education", "plans", "projects", "knowledge", "writing", "programs", "contact"]);
   const contents = html.split('<ol id="contents-list">')[1].split("</ol>")[0];
   const anchors = [...contents.matchAll(/href="#([^"]+)"/g)].map((match) => match[1]);
   assert.deepEqual(anchors, sectionIds);
   assert.doesNotMatch(html, /id="(?:history|experience|interests|volunteer)"|href="#(?:history|experience|interests|volunteer)"/);
   assert.match(html, /id="program-list"[^]*?class="community-placeholder"/);
+  assert.deepEqual(Array.from(context.window.siteContent.plans), []);
+  assert.equal(element("#plans-list").innerHTML, "");
+  assert.equal(element("#plans-list").hidden, true);
+  assert.match(html, /id="about"[^]*?id="education"[^]*?id="plans"[^]*?id="projects"/);
+  assert.match(html, /education <span[^]*?class="plain-title document-heading">plans/);
+  assert.match(css, /\.document-heading\{border-bottom:1px solid #777/);
+  assert.match(css, /\.education-section \.plain-title,\.plans-section \.plain-title\{text-decoration:underline/);
+  assert.match(html, /knowledge &amp; skills<span id="knowledge-title-note"/);
+  assert.match(html, /technically i know all of these.*confidence \/ familiarity/);
+  assert.match(html, /programs &amp; community/);
+  assert.doesNotMatch(html, /assorted institutional entanglements/);
 });
 
 test("static assets resolve beneath the GitHub Pages project path", () => {
@@ -120,22 +131,19 @@ test("real contact links and printable content are rendered from one data source
   assert.doesNotMatch(contact, /<li>|transmission ends|\d\d \/ /);
 });
 
-test("the regular website renders the complete personal biography and three tap/focus secrets", () => {
+test("the homepage leaves About copy empty while retaining its archived text and secrets", () => {
   const biography = element("#about-biography").innerHTML;
-  assert.equal((biography.match(/<p(?: class="body-placeholder")?>/g) || []).length, context.window.siteContent.profile.about.paragraphs.length);
-  assert.match(biography, /hi, i&#39;m dana! : \) i&#39;m an 18 year old independent researcher and/);
-  assert.match(biography, /aspiring founder/);
+  assert.equal(biography, "");
+  assert.equal(context.window.siteContent.profile.about.showOnHomepage, false);
+  assert.equal(context.window.siteContent.profile.about.paragraphs.length, 9);
+  assert.equal(context.window.siteContent.profile.about.secrets.length, 3);
   assert.match(css, /\.about-biography\{text-transform:none\}/);
-  assert.match(biography, /we&#39;ll see how far that gets me\. : \)/);
-  assert.equal((biography.match(/class="bio-secret"/g) || []).length, 3);
-  assert.match(biography, /big dreams and a head that&#39;s too small/);
-  assert.match(biography, /currently accepting donations of computing power and optimism :3/);
-  assert.match(biography, /my laptop and i are both trying our best/);
-  assert.doesNotMatch(biography, /professional summary|language-model development and evaluation/);
-  assert.match(context.window.siteContent.profile.intro, /building little things in pursuit of large things.*stars :3/);
+  assert.equal(context.window.siteContent.profile.intro, "i do things sometimes");
+  assert.match(html, /hello world!/);
+  assert.match(html, /<figcaption>me\.gif<\/figcaption>/);
 });
 
-test("bio notes toggle on tap and close with Escape", () => {
+test("archived bio notes retain their tap and Escape behavior for future copy", () => {
   const biography = element("#about-biography");
   const buttons = [0, 1, 2].map(() => ({
     attrs: new Map(), closest() { return this; },
@@ -182,7 +190,7 @@ test("knowledge stays in the existing three columns and print includes only work
   assert.match(section, /i don't know <span class="secret-target"/);
   assert.match(section, /an honest inventory is allowed to have blanks/);
   assert.match(section, /i don't know[^]*?<\/h3><div class="knowledge-note">\/\/ worked with; still learning<\/div>/);
-  assert.match(section, /i make things because i have questions\./);
+  assert.match(section, /technically i know all of these/);
   assert.match(section, /being explicit about the question is part of the work/);
   assert.equal(know, "");
   assert.equal(dontKnow, "");
@@ -348,8 +356,8 @@ test("personal copy and tiny cleanup stay in place", () => {
   assert.match(element("#currently-list").innerHTML, /scheming.*citation needed.*evidence withheld :3/);
   assert.match(element("#project-list").innerHTML, /<details class="project-ramble">/);
   assert.equal((element("#project-list").innerHTML.match(/\(mindless rambles\)/g) || []).length, 3);
-  assert.match(html, /lastrecordedvideoofme\.gif/);
-  assert.match(html, /hello world/);
+  assert.match(html, /<figcaption>me\.gif<\/figcaption>/);
+  assert.match(html, /hello world!/);
   assert.match(html, /tended<br>/);
   assert.doesNotMatch(html, /ai assisted|hello, internet|notes on knowing things <span|interests\.txt <span/);
 });

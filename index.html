@@ -6,9 +6,9 @@
     <meta name="theme-color" content="#fffdfd">
     <meta name="description" content="Dana Karen's personal homepage, portfolio, and living CV.">
     <title>dana karen : )</title>
-    <link rel="stylesheet" href="styles.css?rev=ia-1">
-    <script src="content.js?rev=ia-1" defer></script>
-    <script src="script.js?rev=ia-1" defer></script>
+    <link rel="stylesheet" href="styles.css?rev=wiki-1">
+    <script src="content.js?rev=wiki-1" defer></script>
+    <script src="script.js?rev=wiki-1" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#main">skip to the actual page ↓</a>
@@ -23,7 +23,7 @@
         <section class="opening" aria-label="introduction and page directory">
           <div class="opening-main">
             <div class="terminal-readout"><div><span class="terminal-prompt">$</span> whoami</div><div class="terminal-answer">dana karen <span class="pink-debris" aria-hidden="true">: )</span></div><div><span class="terminal-prompt">$</span> pwd</div><div class="terminal-answer"><span class="secret-target" tabindex="0">/houston/mentally/everywhere<span class="secret-tip" aria-hidden="true">// the path is mostly metaphorical</span></span> <span aria-hidden="true">☆</span></div><div class="terminal-comment"><span class="secret-target" tabindex="0">// manually maintained<span class="secret-tip" aria-hidden="true">// this file keeps mutating :3</span></span> <span aria-hidden="true">^_^</span></div></div>
-            <div class="notice-line"><span class="tiny-pink">✧</span> hello world</div>
+            <div class="notice-line"><span class="tiny-pink">✧</span> hello world!</div>
             <p class="lede" data-text="intro"></p>
             <p class="identity-line">age: <strong id="age">—</strong> <span class="pipe">/</span> currently: <strong data-text="location.current"></strong> <span class="pipe">/</span> mentally: <span class="elsewhere-secret" tabindex="0" aria-describedby="elsewhere-note"><strong data-text="location.mental"></strong><span id="elsewhere-note" class="secret-tip" role="tooltip"></span></span></p>
             <nav class="large-links" aria-label="page shortcuts">
@@ -38,7 +38,7 @@
               <div class="box-foot">localtime: <time id="chicago-clock"></time></div>
             </section>
             <div class="side-annotation"><span aria-hidden="true">↖</span> tended<br><span class="small-soft">like a tiny garden</span></div>
-            <figure class="gif-object"><img src="assets/princess-bubblegum-science-tags.gif" width="500" height="302" alt="princess bubblegum at a cluttered desk with science equipment in an animated gif" loading="lazy"><figcaption>lastrecordedvideoofme.gif</figcaption></figure>
+            <figure class="gif-object"><img src="assets/princess-bubblegum-science-tags.gif" width="500" height="302" alt="princess bubblegum at a cluttered desk with science equipment in an animated gif" loading="lazy"><figcaption>me.gif</figcaption></figure>
             <section class="music-module" aria-label="tiny local music player"><div>♪ $ play ./music/</div><div id="music-track">[track pending]</div><div class="music-controls"><button type="button" id="music-button" disabled>[play]</button><button type="button" id="music-next" disabled>[next]</button><span id="music-status" role="status" aria-live="polite">no mp3 yet :3</span></div><audio id="music-audio" preload="none"></audio></section>
           </aside>
         </section>
@@ -49,10 +49,11 @@
             <ol id="contents-list">
               <li><a href="#about">about me</a></li>
               <li><a href="#education">education</a></li>
+              <li><a href="#plans">plans</a></li>
               <li><a href="#projects">projects</a></li>
-              <li><a href="#knowledge">i know / don't / want to</a></li>
+              <li><a href="#knowledge">knowledge &amp; skills</a></li>
               <li><a href="#writing">writing</a></li>
-              <li><a href="#programs">programs / community / etc.</a></li>
+              <li><a href="#programs">programs &amp; community</a></li>
               <li><a href="#contact">contact</a></li>
             </ol>
           </aside>
@@ -64,8 +65,13 @@
             </section>
 
             <section id="education" class="doc-section education-section">
-              <h2 class="plain-title">education <span aria-hidden="true">✳</span></h2>
+              <h2 class="plain-title document-heading">education <span aria-hidden="true">✳</span></h2>
               <div class="education-line"><strong data-text="education.class"></strong><span data-text="education.note"></span><span class="tiny-stray pink-debris" aria-hidden="true">:3</span></div>
+            </section>
+
+            <section id="plans" class="doc-section plans-section">
+              <h2 class="plain-title document-heading">plans</h2>
+              <ul id="plans-list" class="plain-records" hidden></ul>
             </section>
 
             <section id="projects" class="doc-section projects-section">
@@ -77,7 +83,7 @@
             </section>
 
             <section id="knowledge" class="doc-section knowledge-section">
-              <h2 class="plain-title secret-target knowledge-title" tabindex="0" aria-describedby="knowledge-title-note">notes on knowing things<span id="knowledge-title-note" class="secret-tip">i make things because i have questions.<br>this, so far, has failed to reduce the number of questions.</span></h2>
+              <h2 class="plain-title document-heading secret-target knowledge-title" tabindex="0" aria-describedby="knowledge-title-note">knowledge &amp; skills<span id="knowledge-title-note" class="secret-tip">// technically i know all of these. think of this as confidence / familiarity, from strongest to still figuring it out :3</span></h2>
               <div class="knowledge-grid"><div class="knowledge-column"><h3>i know <span aria-hidden="true">[✓]</span></h3><ul id="know-list"></ul></div><div class="knowledge-column"><h3>i don't know <span class="secret-target" tabindex="0" aria-label="a note: an honest inventory is allowed to have blanks">[?]<span class="secret-tip" aria-hidden="true">an honest inventory is allowed to have blanks</span></span></h3><div class="knowledge-note">// worked with; still learning</div><ul id="dont-know-list"></ul></div><div class="knowledge-column"><h3>i want to know <span aria-hidden="true">[→]</span></h3><ul id="want-know-list"></ul></div></div>
               <p class="knowledge-footer">being explicit about the question is part of the work <span class="pink-debris" aria-hidden="true">(˶ᵔ ᵕ ᵔ˶)</span></p>
               <aside class="quote-fragment quote-after-knowledge" data-quote-slot="3"></aside>
@@ -91,7 +97,7 @@
             </section>
 
             <section id="programs" class="doc-section programs-section">
-              <h2 class="link-title">programs / community / etc.</h2><p class="small-soft">// assorted institutional entanglements, eventually <span aria-hidden="true">🌙</span></p><ul id="program-list" class="plain-records"></ul><p data-text="volunteer" class="community-placeholder"></p><span class="volunteer-debris" aria-hidden="true">(╥﹏╥) <span>not everything fits in a form</span></span>
+              <h2 class="link-title document-heading">programs &amp; community</h2><ul id="program-list" class="plain-records"></ul><p data-text="volunteer" class="community-placeholder"></p><span class="volunteer-debris" aria-hidden="true">(╥﹏╥) <span>not everything fits in a form</span></span>
             </section>
 
             <section id="contact" class="doc-section contact-section">

@@ -7,8 +7,9 @@ window.siteContent = {
   profile: {
     name: "Dana Karen",
     location: { current: "Houston", mental: "everywhere" },
-    intro: "building little things in pursuit of large things. current interests include artificial intelligence and the conquest of the stars :3",
+    intro: "i do things sometimes",
     about: {
+      showOnHomepage: false, // Keep the old copy and phrase notes here for the next About rewrite.
       paragraphs: [
   "hi, i'm dana! : ) i'm {ageArticle} {age} year old independent researcher and aspiring founder with an unfortunate predilection for large ideas",
   "i spend most of my time experimenting with language models, reading about things that have very little to do with whatever i was supposed to be doing, and trying to turn ambitious ideas into something that works. my interests are primarily in artificial intelligence, astrophysics, and philosophy, although i have a tendency to wander into just about anything that manages to hold my attention long enough.",
@@ -186,6 +187,7 @@ window.siteContent = {
     { title: "[research note title]", kind: "research", date: "[date]", url: "" },
     { title: "[fragment from the archive]", kind: "fragment", date: "[date]", url: "" }
   ],
+  plans: [],
   knowledge: {
     know: [],
     dontKnow: [],
