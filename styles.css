@@ -348,4 +348,5 @@
 .teammate-invite:hover .teammate-message,.teammate-invite:focus-within .teammate-message,.teammate-toggle[aria-expanded="true"]+.teammate-message{visibility:visible;opacity:1;pointer-events:auto}
 @media screen and (max-width:560px){
   .bio-secret .secret-tip,.archive-bottom .secret-tip,.knowledge-column h3 .secret-tip{left:auto;right:0}
+  .gif-object figcaption{overflow-wrap:anywhere}
 }
