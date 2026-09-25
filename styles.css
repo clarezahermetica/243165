@@ -350,3 +350,9 @@
   .bio-secret .secret-tip,.archive-bottom .secret-tip,.knowledge-column h3 .secret-tip{left:auto;right:0}
   .gif-object figcaption{overflow-wrap:anywhere}
 }
+@media screen and (max-width:350px){
+  .elsewhere-secret .secret-tip,#bio-tip-2{left:0;right:auto}
+  #bio-tip-1{left:-65px;right:auto}
+  .contents-heading .secret-tip{left:auto;right:0}
+  .project-path-secret .secret-tip{left:-50px;right:auto}
+}
