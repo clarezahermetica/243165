@@ -7,7 +7,7 @@ window.siteContent = {
   profile: {
     name: "Dana Karen",
     location: { current: "Houston", mental: "everywhere" },
-    intro: "i do things sometimes",
+    intro: "i make things to find out what happens.",
     about: {
       showOnHomepage: false, // Keep the old copy and phrase notes here for the next About rewrite.
       paragraphs: [
@@ -98,14 +98,14 @@ window.siteContent = {
   }
 ],
   currently: [
-    { label: "building", value: "landling" },
+    { label: "building", value: "", showWhenEmpty: true },
     { label: "reading", value: "red plenty — francis spufford" },
     { label: "thinking about", value: "" },
-    { label: "learning", value: "" },
+    { label: "learning", value: "sardu / עברית", citation: "[slacking off]", citationNote: "progress has been... intermittent :3" },
     { label: "listening to", value: "" },
-    { label: "watching", value: "" },
+    { label: "watching", value: "연애기숙학교 돌싱N모솔", url: "https://program.imbc.com/Concept/dolsingmosol" },
     { label: "obsessing over", value: "" },
-    { label: "avoiding", value: "" },
+    { label: "avoiding", value: "the real world" },
     { label: "location", valueFrom: "location.current" },
     { label: "mentally", valueFrom: "location.mental" },
     { label: "status", value: "scheming", citation: "[citation needed]" }

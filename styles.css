@@ -67,7 +67,7 @@
   .doc-section p{margin:0 0 7px}
   .heading-motif{font:13px var(--mono);color:var(--black)}
   .wiki-title{font-weight:bold!important;border-bottom:1px solid #777;padding-bottom:2px}
-  .about-section{border-bottom:1px solid #222;padding-bottom:12px;margin-bottom:11px}
+  .about-section{border-bottom:0;padding-bottom:12px;margin-bottom:11px}
   .about-grid{grid-template-columns:minmax(0,1fr) 185px;gap:16px}
   .about-grid>div:first-child{max-width:none}
   .body-placeholder{font-size:15px;line-height:1.3}
@@ -339,6 +339,8 @@
 .currently .citation-needed{font:9px var(--mono);color:var(--link-blue);text-decoration:underline;text-decoration-style:dotted;white-space:nowrap}
 .currently .citation-needed .secret-tip{white-space:nowrap}
 .about-biography{text-transform:none}
+.dana-slot{display:inline-block;inline-size:4.3em;min-inline-size:4.3em;padding:0;border:0;background:none;color:var(--pink-4);font:inherit;line-height:inherit;text-align:center;vertical-align:baseline;cursor:pointer}
+.dana-slot .secret-tip{font:10px/1.25 var(--mono)}
 .bio-secret{display:inline;position:relative;border:0;background:none;padding:0;color:inherit;font:inherit;text-align:inherit;text-decoration:underline dotted var(--pink-4);text-decoration-thickness:1px;text-underline-offset:2px}
 .bio-secret:hover,.bio-secret:focus-visible,.bio-secret[aria-expanded="true"]{color:var(--pink-4);background:none}
 .bio-secret .secret-tip{left:0;top:calc(100% + 3px);max-width:min(230px,calc(100vw - 36px));color:var(--black)}

@@ -14,12 +14,13 @@ const resumeLinks = [...html.matchAll(/href="\?resume=1"/g)].map(() => ({ handle
 const bodyClasses = new Set();
 const scheduled = [];
 const documentHandlers = {};
+const mediaHandlers = {};
 let reducedMotion = false;
 let printCalls = 0;
 function element(selector) {
   if (!elements.has(selector)) {
     const node = {
-      textContent: "", innerHTML: "", hidden: false, href: "", dateTime: "",
+      textContent: "", innerHTML: selector === "#about-biography" ? html.match(/<div id="about-biography" class="about-biography">([^]*?)<\/div><div class="wiki-note">/)[1] : "", hidden: false, href: "", dateTime: "",
       dataset: {}, style: { setProperty() {} }, attrs: new Map(), handlers: {}, open: false,
       addEventListener(type, handler) { this.handlers[type] = handler; },
       querySelectorAll() { return []; },
@@ -40,7 +41,7 @@ const context = {
   URL, URLSearchParams, Intl, Date, Math, String, Number, Object,
   location: { search: "" },
   document: { querySelector: element, querySelectorAll: (selector) => selector === "[data-quote-slot]" ? quoteNodes : selector === "[data-motif]" ? motifNodes : selector === 'a[href="?resume=1"]' ? resumeLinks : [], addEventListener(type, handler) { documentHandlers[type] = handler; }, body: { classList: { add(value) { bodyClasses.add(value); }, remove(value) { bodyClasses.delete(value); } } } },
-  window: { setTimeout(handler, delay) { scheduled.push({ handler, delay }); }, matchMedia: () => ({ matches: reducedMotion }), print() { printCalls += 1; } }
+  window: { setTimeout(handler, delay) { scheduled.push({ handler, delay }); }, matchMedia: () => ({ get matches() { return reducedMotion; }, addEventListener(type, handler) { mediaHandlers[type] = handler; } }), print() { printCalls += 1; } }
 };
 vm.createContext(context);
 vm.runInContext(fs.readFileSync(path.join(root, "content.js"), "utf8"), context);
@@ -64,7 +65,13 @@ test("CURRENTLY clock shows live Chicago seconds in summer and winter", () => {
 
 test("CURRENTLY omits empty fields and stays out of the résumé", () => {
   const current = element("#currently-list").innerHTML;
-  assert.equal((current.match(/<dt>/g) || []).length, 5);
+  assert.equal((current.match(/<dt>/g) || []).length, 8);
+  assert.match(current, /<dt>building<\/dt><dd><\/dd>/);
+  assert.match(current, /red plenty — francis spufford/);
+  assert.match(current, /sardu \/ עברית.*\[slacking off\].*progress has been\.\.\. intermittent :3/);
+  assert.match(current, /<a href="https:\/\/program\.imbc\.com\/Concept\/dolsingmosol" target="_blank" rel="noopener noreferrer">연애기숙학교 돌싱N모솔<\/a>/);
+  assert.match(current, /<dt>avoiding<\/dt><dd>the real world<\/dd>/);
+  assert.match(current, /scheming.*\[citation needed\]/);
   assert.ok(!current.includes("thinking about"));
   assert.ok(current.includes("Houston"));
   assert.ok(!element("#resume-content").innerHTML.includes("CURRENTLY"));
@@ -91,13 +98,15 @@ test("homepage sections and contents follow the curated order", () => {
   assert.equal(element("#plans-list").innerHTML, "");
   assert.equal(element("#plans-list").hidden, true);
   assert.match(html, /id="about"[^]*?id="education"[^]*?id="plans"[^]*?id="projects"/);
-  assert.match(html, /education <span[^]*?class="plain-title document-heading">plans/);
+  assert.match(html, /education <span[^]*?class="plain-title document-heading">future tense/);
   assert.match(css, /\.document-heading\{border-bottom:1px solid #777/);
   assert.match(css, /\.education-section \.plain-title,\.plans-section \.plain-title\{text-decoration:underline/);
-  assert.match(html, /knowledge &amp; skills<span id="knowledge-title-note"/);
-  assert.match(html, /technically i know all of these.*confidence \/ familiarity/);
-  assert.match(html, /programs &amp; community/);
+  assert.match(html, /things i know, more or less<span id="knowledge-title-note"/);
+  assert.match(html, /skills, basically\. technically i know all of these; this is more of a confidence \/ familiarity gradient :3/);
+  assert.match(html, /assorted affiliations &amp; encounters/);
   assert.doesNotMatch(html, /assorted institutional entanglements/);
+  assert.match(css, /\.about-section\{border-bottom:0;/);
+  assert.match(css, /\.wiki-title\{[^}]*border-bottom:1px solid #777/);
 });
 
 test("static assets resolve beneath the GitHub Pages project path", () => {
@@ -131,14 +140,15 @@ test("real contact links and printable content are rendered from one data source
   assert.doesNotMatch(contact, /<li>|transmission ends|\d\d \/ /);
 });
 
-test("the homepage leaves About copy empty while retaining its archived text and secrets", () => {
+test("the homepage shows only the Dana opening while retaining archived About copy", () => {
   const biography = element("#about-biography").innerHTML;
-  assert.equal(biography, "");
+  assert.match(biography, /hi, i'm <button[^]*?>dana<\/span>[^]*?! : \)<\/p>/);
+  assert.doesNotMatch(biography, /independent researcher|aspiring founder|large ideas/);
   assert.equal(context.window.siteContent.profile.about.showOnHomepage, false);
   assert.equal(context.window.siteContent.profile.about.paragraphs.length, 9);
   assert.equal(context.window.siteContent.profile.about.secrets.length, 3);
   assert.match(css, /\.about-biography\{text-transform:none\}/);
-  assert.equal(context.window.siteContent.profile.intro, "i do things sometimes");
+  assert.equal(context.window.siteContent.profile.intro, "i make things to find out what happens.");
   assert.match(html, /hello world!/);
   assert.match(html, /<figcaption>me\.gif<\/figcaption>/);
 });
@@ -160,6 +170,45 @@ test("archived bio notes retain their tap and Escape behavior for future copy", 
   documentHandlers.keydown({ key: "Escape" });
   assert.equal(buttons[1].getAttribute("aria-expanded"), "false");
   assert.match(css, /\.bio-secret:focus-visible>\.secret-tip/);
+});
+
+test("Dana's slot flickers briefly, pauses, and stays static with reduced motion", () => {
+  const button = element("#dana-slot");
+  const script = element("#dana-script");
+  const forms = ["dana", "дана", "檀那", "दाना", "다나", "だんな", "דָּנָה"];
+  assert.match(html, /id="dana-slot"[^>]*aria-label="Dana" aria-pressed="false" aria-describedby="dana-slot-note"/);
+  assert.match(html, /id="dana-script" aria-hidden="true">dana/);
+  assert.match(html, /multilingual\. or at least trying to be :3/);
+  assert.match(css, /\.dana-slot\{[^}]*color:var\(--pink-4\)/);
+  assert.match(css, /\.secret-target:focus-visible/);
+  const firstBurst = scheduled.findIndex(({ delay }) => delay >= 3000 && delay <= 5000);
+  assert.ok(firstBurst >= 0);
+  scheduled[firstBurst].handler();
+  let cursor = firstBurst + 1;
+  for (let frame = 0; frame < 6; frame += 1) {
+    const next = scheduled.findIndex(({ delay }, index) => index >= cursor && delay === 55);
+    assert.ok(next >= 0);
+    scheduled[next].handler();
+    cursor = next + 1;
+  }
+  assert.ok(forms.includes(script.textContent));
+  assert.notEqual(script.textContent, "dana");
+  button.handlers.click();
+  assert.equal(button.getAttribute("aria-pressed"), "true");
+  const frozen = script.textContent;
+  const pending = scheduled.findIndex(({ delay }, index) => index >= cursor && delay >= 3000 && delay <= 5000);
+  assert.ok(pending >= 0);
+  scheduled[pending].handler();
+  assert.equal(script.textContent, frozen);
+  button.handlers.click();
+  assert.equal(button.getAttribute("aria-pressed"), "false");
+  reducedMotion = true;
+  mediaHandlers.change();
+  assert.equal(script.textContent, "dana");
+  button.handlers.click();
+  assert.equal(button.getAttribute("aria-pressed"), "false");
+  reducedMotion = false;
+  mediaHandlers.change();
 });
 
 test("print résumé uses only the professional summary and retains plain text sections", () => {
@@ -355,7 +404,7 @@ test("personal copy and tiny cleanup stay in place", () => {
   assert.deepEqual(Array.from(context.window.siteContent.changelog), ["v0.1 — file created", "v0.2 — opened it up", "v0.3 — moved more things around"]);
   assert.match(element("#currently-list").innerHTML, /scheming.*citation needed.*evidence withheld :3/);
   assert.match(element("#project-list").innerHTML, /<details class="project-ramble">/);
-  assert.equal((element("#project-list").innerHTML.match(/\(mindless rambles\)/g) || []).length, 3);
+  assert.equal((element("#project-list").innerHTML.match(/\(personal notes \/ writing\)/g) || []).length, 3);
   assert.match(html, /<figcaption>me\.gif<\/figcaption>/);
   assert.match(html, /hello world!/);
   assert.match(html, /tended<br>/);

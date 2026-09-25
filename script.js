@@ -55,7 +55,6 @@
   function renderBiography() {
     renderedBiographyAge = ageAt(new Date());
     if (!data.profile.about.showOnHomepage) {
-      $("#about-biography").innerHTML = "";
       return;
     }
     $("#about-biography").innerHTML = data.profile.about.paragraphs.map((paragraph, paragraphIndex) => {
@@ -103,7 +102,15 @@
     renderBiography();
     const prettyDate = new Intl.DateTimeFormat("en-US", { year: "numeric", month: "short", day: "numeric", timeZone: "UTC" }).format(new Date(`${data.metadata.lastUpdated}T12:00:00Z`));
     ["#header-updated", "#footer-updated"].forEach((selector) => { const node = $(selector); node.dateTime = data.metadata.lastUpdated; node.textContent = prettyDate; });
-    $("#currently-list").innerHTML = data.currently.map(({ label, value, valueFrom, citation }) => ({ label, value: valueFrom ? pathValue(valueFrom) : value, citation })).filter(({ value }) => String(value ?? "").trim()).map(({ label, value, citation }) => `<dt>${escapeHTML(label)}</dt><dd>${escapeHTML(value)}${citation ? ` <span class="secret-target citation-needed" tabindex="0" aria-label="citation needed: evidence withheld :3">${escapeHTML(citation)}<span class="secret-tip" aria-hidden="true">evidence withheld :3</span></span>` : ""}</dd>`).join("");
+    $("#currently-list").innerHTML = data.currently.map((item, index) => {
+      const value = item.valueFrom ? pathValue(item.valueFrom) : item.value;
+      if (!item.showWhenEmpty && !String(value ?? "").trim()) return "";
+      const url = safeUrl(item.url);
+      const display = url ? `<a href="${escapeHTML(url)}" target="_blank" rel="noopener noreferrer">${escapeHTML(value)}</a>` : escapeHTML(value);
+      const note = item.citationNote ?? "evidence withheld :3";
+      const citation = item.citation ? ` <span class="secret-target citation-needed" tabindex="0" aria-describedby="currently-note-${index}">${escapeHTML(item.citation)}<span id="currently-note-${index}" class="secret-tip" role="tooltip">${escapeHTML(note)}</span></span>` : "";
+      return `<dt>${escapeHTML(item.label)}</dt><dd>${display}${citation}</dd>`;
+    }).join("");
     const plans = $("#plans-list");
     plans.innerHTML = data.plans.map(({ text }) => `<li>${escapeHTML(text)}</li>`).join("");
     plans.hidden = data.plans.length === 0;
@@ -114,7 +121,7 @@
       const description = Array.isArray(item.description) ? item.description.map((paragraph) => `<p>${escapeHTML(paragraph)}</p>`).join("") : escapeHTML(item.description);
       const history = Array.isArray(item.history) ? `<ol class="project-history-list">${item.history.map(({ version, note }) => `<li><strong>${escapeHTML(version)}</strong> — ${escapeHTML(note)}</li>`).join("")}</ol>` : escapeHTML(item.history);
       const activeMarker = item.active ? ` <span class="secret-target active-project-marker" tabindex="0" aria-label="active project: currently working on this">✳<span class="secret-tip" aria-hidden="true">currently working on this : )</span></span>` : "";
-      return `<article class="project-entry"><div><div class="project-meta">drwxr-xr-x &nbsp; ${pathDisplay} <span>♡</span></div><h3>${escapeHTML(item.name)}${activeMarker}</h3><dl class="project-details"><dt>status</dt><dd>${escapeHTML(item.status)}</dd><dt>year</dt><dd>${escapeHTML(item.year)}</dd><dt>summary</dt><dd>${escapeHTML(item.summary)}</dd><dt>details</dt><dd class="project-description">${description}</dd><dt>methods</dt><dd class="project-methods">${item.methods.map((method) => `<span>${escapeHTML(method)}</span>`).join(" ")}</dd>${links ? `<dt>links</dt><dd class="project-links">${links}</dd>` : ""}<dt>history</dt><dd>${history}</dd></dl><details class="project-ramble"><summary>(mindless rambles)</summary><p>${escapeHTML(item.ramble)}</p></details></div><div class="project-image" role="img" aria-label="placeholder for a future project image">${escapeHTML(item.image)}</div></article>`;
+      return `<article class="project-entry"><div><div class="project-meta">drwxr-xr-x &nbsp; ${pathDisplay} <span>♡</span></div><h3>${escapeHTML(item.name)}${activeMarker}</h3><dl class="project-details"><dt>status</dt><dd>${escapeHTML(item.status)}</dd><dt>year</dt><dd>${escapeHTML(item.year)}</dd><dt>summary</dt><dd>${escapeHTML(item.summary)}</dd><dt>details</dt><dd class="project-description">${description}</dd><dt>methods</dt><dd class="project-methods">${item.methods.map((method) => `<span>${escapeHTML(method)}</span>`).join(" ")}</dd>${links ? `<dt>links</dt><dd class="project-links">${links}</dd>` : ""}<dt>history</dt><dd>${history}</dd></dl><details class="project-ramble"><summary>(personal notes / writing)</summary><p>${escapeHTML(item.ramble)}</p></details></div><div class="project-image" role="img" aria-label="placeholder for a future project image">${escapeHTML(item.image)}</div></article>`;
     }).join("");
     $("#writing-list").innerHTML = data.writing.map((item) => `<li><span>${safeUrl(item.url) ? `<a href="${escapeHTML(safeUrl(item.url))}" target="_blank" rel="noopener noreferrer">${escapeHTML(item.title)} ↗</a>` : `<span class="archive-title">${escapeHTML(item.title)}</span>`}</span><span class="archive-kind">${escapeHTML(item.kind)}</span><time>${escapeHTML(item.date)}</time></li>`).join("");
     $("#know-list").innerHTML = knowledgeGroups(data.knowledge.know);
@@ -172,6 +179,48 @@
       resumeSection("Programs / events", programs),
       resumeSection("Volunteer / community", `<p>${escapeHTML(data.volunteer)}</p>`)
     ].join("");
+  }
+
+  function setupDanaSlot() {
+    const button = $("#dana-slot");
+    const script = $("#dana-script");
+    const forms = ["dana", "дана", "檀那", "दाना", "다나", "だんな", "דָּנָה"];
+    const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let current = 0;
+    let paused = false;
+    let generation = 0;
+    const show = (index) => { current = index; script.textContent = forms[index]; };
+    const different = (index) => (index + 1 + Math.floor(Math.random() * (forms.length - 1))) % forms.length;
+    function schedule() {
+      if (paused || motion.matches) return;
+      const run = ++generation;
+      window.setTimeout(() => {
+        if (paused || motion.matches || run !== generation) return;
+        const landing = different(current);
+        let frame = 0;
+        function flicker() {
+          if (paused || motion.matches || run !== generation) return;
+          show(frame < 6 ? different(current) : landing);
+          frame += 1;
+          if (frame < 7) window.setTimeout(flicker, 55);
+          else schedule();
+        }
+        flicker();
+      }, 3000 + Math.random() * 2000);
+    }
+    button.addEventListener("click", () => {
+      if (motion.matches) return;
+      paused = !paused;
+      button.setAttribute("aria-pressed", String(paused));
+      generation += 1;
+      if (!paused) schedule();
+    });
+    motion.addEventListener?.("change", () => {
+      generation += 1;
+      if (motion.matches) show(0);
+      else if (!paused) schedule();
+    });
+    schedule();
   }
 
   function setupInteractions() {
@@ -266,7 +315,7 @@
     });
   }
 
-  renderData(); renderResume(); setupInteractions(); scheduleAgeRefresh(); scheduleChicagoClock();
+  renderData(); renderResume(); setupInteractions(); setupDanaSlot(); scheduleAgeRefresh(); scheduleChicagoClock();
   document.addEventListener("visibilitychange", () => { if (!document.hidden) { refreshAge(); refreshChicagoClock(); } });
   if (new URLSearchParams(location.search).get("resume") === "1") document.body.classList.add("resume-mode");
 })();
