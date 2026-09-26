@@ -177,10 +177,10 @@ test("locked About and Future Tense copy retains its paragraphs and punctuation"
     ["further afield", [
       "i'd like to work on more ambitious ai models that can interact with and learn from the physical world and bring up questions about learning, identity, and agency. beyond language models, there's a whole world of embodied intelligence that i'd love to get my hands on. there's no shortage of things to investigate along the way, and hopefully i'll find other curious people to build and experiment with",
       "eventually, i'd like to found a research lab of my own. what would it specialize in? GREAT question ^_^; i'd love to know too! i imagine the particulars will become clear once i've developed my skills, gained more experience, and built enough things to have a better idea of what i'm capable of. i'd rather work toward having the knowledge and experience to make that decision than rush into making it before i know what i'm doing."
-    ], "sorry for not taking the 16-year-old stanford dropout → b2b saas founder route. the scenic route looks cooler anyway. :3"]
+    ], undefined]
   ]);
   assert.match(element("#plans-list").innerHTML, /<em>a little<\/em>/);
-  assert.match(element("#plans-list").innerHTML, /<p class="plan-closing"><em>sorry for not taking/);
+  assert.doesNotMatch(element("#plans-list").innerHTML, /sorry for not taking|plan-closing/);
   assert.doesNotMatch(element("#resume-content").innerHTML, /weather balloon|scenic route/);
 });
 
