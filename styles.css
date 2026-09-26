@@ -343,21 +343,21 @@
 @media screen{
   .education-line{display:inline-flex;align-items:baseline;flex-wrap:wrap;gap:4px 9px;padding:3px 0 6px;border-bottom:1px dotted var(--pink-3)}
   .education-line strong,.education-line span[aria-hidden]{color:var(--pink-4)}
-  .education-line strong{font:700 12px var(--mono)}
-  .education-line span{font:11px var(--mono)}
+  .education-line strong{font:700 14px/1.34 "Times New Roman",Times,serif}
+  .education-line span{font:14px/1.34 "Times New Roman",Times,serif}
   .academics-detail{display:grid;grid-template-columns:minmax(0,1fr) 220px;grid-template-areas:"scores distinctions" "activities distinctions";gap:10px 17px;margin-top:10px;min-width:0}
   .academic-group{min-width:0;margin:0 0 12px}
-  .academic-group h3{margin:0 0 5px;color:var(--pink-4);font:700 11px var(--mono)}
+  .academic-group h3{margin:0 0 5px;color:var(--pink-4);font:700 13px/1.34 "Times New Roman",Times,serif}
   .academic-scores{grid-area:scores}
   .academic-scores dl{margin:0;border-top:1px solid #aaa}
   .academic-scores dl>div{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;padding:3px 2px;border-bottom:1px dotted #ccc}
-  .academic-scores dt{font:12px/1.35 var(--mono);overflow-wrap:anywhere}.academic-scores dd{margin:0;color:var(--pink-4);font:700 12px/1.35 var(--mono)}
+  .academic-scores dt{font:14px/1.34 "Times New Roman",Times,serif;overflow-wrap:anywhere}.academic-scores dd{margin:0;color:var(--pink-4);font:700 14px/1.34 "Times New Roman",Times,serif}
   .academic-activities{grid-area:activities;border-top:1px solid #aaa;padding-top:6px}
   .academic-activity{padding:4px 0 7px;border-bottom:1px dotted #ccc}
-  .academic-activity strong{font:700 12px/1.35 var(--mono)}
-  .academic-activity p{margin:2px 0 0!important;font:12px/1.4 var(--mono)}
+  .academic-activity strong{font:700 14px/1.34 "Times New Roman",Times,serif}
+  .academic-activity p{margin:2px 0 0!important;font:14px/1.34 "Times New Roman",Times,serif}
   .academic-distinctions{grid-area:distinctions;border-top:1px solid #aaa;padding-top:6px}
-  .academic-distinctions p{margin:0!important;padding:5px 0 5px 12px;border-bottom:1px dotted #ccc;font:12px/1.4 var(--mono);position:relative}
+  .academic-distinctions p{margin:0!important;padding:5px 0 5px 12px;border-bottom:1px dotted #ccc;font:14px/1.34 "Times New Roman",Times,serif;position:relative}
   .academic-distinctions p::before{content:"✳";position:absolute;left:0;color:var(--pink-4);font-size:9px}
   .plan-entry{margin:0;border-top:1px dotted #aaa}
   .plan-entry:last-child{border-bottom:1px dotted #aaa}
