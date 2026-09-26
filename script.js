@@ -4,7 +4,11 @@
   if (!data) throw new Error("content.js must load before script.js");
   const $ = (selector) => document.querySelector(selector);
   const escapeHTML = (value) => String(value ?? "").replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char]);
-  const knowledgeGroups = (groups) => groups.map(({ label, items }) => `<li class="knowledge-group"><strong>${escapeHTML(label)}</strong><span>${items.map(escapeHTML).join(" · ")}</span></li>`).join("");
+  const knowledgeRows = (rows) => rows.map((row) => {
+    const text = typeof row === "string" ? row : row.text;
+    const annotation = row.annotation ? ` <span class="secret-target knowledge-annotation" tabindex="0" aria-describedby="rusty-note">${escapeHTML(row.annotation)}<span id="rusty-note" class="secret-tip" role="tooltip">${escapeHTML(row.note)}</span></span>` : "";
+    return `<li class="knowledge-row">${escapeHTML(text)}${annotation}</li>`;
+  }).join("");
   const safeUrl = (value) => {
     try { const url = new URL(value); return ["https:", "mailto:"].includes(url.protocol) ? url.href : ""; }
     catch { return ""; }
@@ -51,26 +55,30 @@
   }
   window.siteAgeAt = ageAt; // Tiny diagnostic hook for the birthday-boundary check.
   let renderedBiographyAge = null;
+  const aboutOpening = $("#about-biography").innerHTML;
   const ageArticleFor = (age) => (age === 8 || age === 11 || age === 18 || age === 19 || (age >= 80 && age < 90) ? "an" : "a");
   function renderBiography() {
     renderedBiographyAge = ageAt(new Date());
     if (!data.profile.about.showOnHomepage) {
       return;
     }
-    $("#about-biography").innerHTML = data.profile.about.paragraphs.map((paragraph, paragraphIndex) => {
+    $("#about-biography").innerHTML = aboutOpening + data.profile.about.paragraphs.map((paragraph) => {
       let content = escapeHTML(paragraph.replaceAll("{ageArticle}", ageArticleFor(renderedBiographyAge)).replaceAll("{age}", String(renderedBiographyAge))).replace(/\n/g, "<br>");
       data.profile.about.secrets.forEach((secret, secretIndex) => {
         const phrase = escapeHTML(secret.phrase);
         const tipId = `bio-tip-${secretIndex}`;
         content = content.replace(phrase, `<button type="button" class="bio-secret" aria-label="${phrase}" aria-describedby="${tipId}" aria-expanded="false">${phrase}<span id="${tipId}" class="secret-tip" role="tooltip">${escapeHTML(secret.note)}</span></button>`);
       });
-      return `<p${paragraphIndex === 0 ? ' class="body-placeholder"' : ""}>${content}</p>`;
+      return `<p>${content}</p>`;
     }).join("");
   }
   function refreshAge() {
     const age = ageAt(new Date());
     $("#age").textContent = String(age);
-    if (renderedBiographyAge !== age) renderBiography();
+    if (renderedBiographyAge !== age) {
+      if (data.profile.about.paragraphs.some((paragraph) => paragraph.includes("{age"))) renderBiography();
+      else renderedBiographyAge = age;
+    }
   }
   function scheduleAgeRefresh() {
     refreshAge();
@@ -111,28 +119,34 @@
       const citation = item.citation ? ` <span class="secret-target citation-needed" tabindex="0" aria-describedby="currently-note-${index}">${escapeHTML(item.citation)}<span id="currently-note-${index}" class="secret-tip" role="tooltip">${escapeHTML(note)}</span></span>` : "";
       return `<dt>${escapeHTML(item.label)}</dt><dd>${display}${citation}</dd>`;
     }).join("");
-    const plans = $("#plans-list");
-    plans.innerHTML = data.plans.map(({ text }) => `<li>${escapeHTML(text)}</li>`).join("");
-    plans.hidden = data.plans.length === 0;
+    $("#academics-detail").innerHTML = [["coursework / scores", data.academics.coursework], ["activities", data.academics.activities], ["distinctions", data.academics.distinctions]].map(([heading, entries]) => `<div class="academic-group"><h3>${heading}</h3><ul>${entries.map((entry) => `<li>${escapeHTML(entry)}</li>`).join("")}</ul></div>`).join("");
+    $("#plans-list").innerHTML = data.plans.map(({ heading, paragraphs, closing }, index) => `<article class="plan-entry"><h3>${escapeHTML(heading)}</h3>${paragraphs.map((paragraph, paragraphIndex) => {
+      let content = escapeHTML(paragraph);
+      if (index === 0 && paragraphIndex === 0) content = content.replace("a little", "<em>a little</em>");
+      return `<p>${content}</p>`;
+    }).join("")}${closing ? `<p class="plan-closing"><em>${escapeHTML(closing)}</em></p>` : ""}</article>`).join("");
     $("#project-list").innerHTML = data.projects.map((item, index) => {
-      const links = Object.entries(item.links).filter(([, url]) => safeUrl(url)).map(([label, url]) => `<a href="${escapeHTML(safeUrl(url))}" target="_blank" rel="noopener noreferrer">${escapeHTML(item.linkLabels?.[label] ?? `${label} ↗`)}</a>`).join("");
       const path = `./projects/${String(index + 1).padStart(2, "0")}/`;
-      const pathDisplay = index === 0 ? `<span class="secret-target project-path-secret" tabindex="0" aria-label="${path}: a note says missing image but emotionally present">${path}<span class="secret-tip" aria-hidden="true">// missing image but emotionally present</span></span>` : path;
+      const activeMarker = item.active ? ` <span class="secret-target active-project-marker" tabindex="0" aria-label="active project: currently working on this">✳<span class="secret-tip" aria-hidden="true">currently working on this : )</span></span>` : "";
+      if (!item.description) return `<article class="project-entry project-entry-brief"><div><div class="project-meta">drwxr-xr-x &nbsp; ${path} <span>♡</span></div><h3>${escapeHTML(item.name)}${activeMarker}</h3><p class="project-summary">${escapeHTML(item.summary)}</p>${item.note ? `<p class="project-brief-note">${escapeHTML(item.note)}</p>` : ""}</div></article>`;
+      const links = Object.entries(item.links).filter(([, url]) => safeUrl(url)).map(([label, url]) => `<a href="${escapeHTML(safeUrl(url))}" target="_blank" rel="noopener noreferrer">${escapeHTML(item.linkLabels?.[label] ?? `${label} ↗`)}</a>`).join("");
       const description = Array.isArray(item.description) ? item.description.map((paragraph) => `<p>${escapeHTML(paragraph)}</p>`).join("") : escapeHTML(item.description);
       const history = Array.isArray(item.history) ? `<ol class="project-history-list">${item.history.map(({ version, note }) => `<li><strong>${escapeHTML(version)}</strong> — ${escapeHTML(note)}</li>`).join("")}</ol>` : escapeHTML(item.history);
-      const activeMarker = item.active ? ` <span class="secret-target active-project-marker" tabindex="0" aria-label="active project: currently working on this">✳<span class="secret-tip" aria-hidden="true">currently working on this : )</span></span>` : "";
-      return `<article class="project-entry"><div><div class="project-meta">drwxr-xr-x &nbsp; ${pathDisplay} <span>♡</span></div><h3>${escapeHTML(item.name)}${activeMarker}</h3><dl class="project-details"><dt>status</dt><dd>${escapeHTML(item.status)}</dd><dt>year</dt><dd>${escapeHTML(item.year)}</dd><dt>summary</dt><dd>${escapeHTML(item.summary)}</dd><dt>details</dt><dd class="project-description">${description}</dd><dt>methods</dt><dd class="project-methods">${item.methods.map((method) => `<span>${escapeHTML(method)}</span>`).join(" ")}</dd>${links ? `<dt>links</dt><dd class="project-links">${links}</dd>` : ""}<dt>history</dt><dd>${history}</dd></dl><details class="project-ramble"><summary>(personal notes / writing)</summary><p>${escapeHTML(item.ramble)}</p></details></div><div class="project-image" role="img" aria-label="placeholder for a future project image">${escapeHTML(item.image)}</div></article>`;
+      return `<article class="project-entry"><div><div class="project-meta">drwxr-xr-x &nbsp; ${path} <span>♡</span></div><h3>${escapeHTML(item.name)}${activeMarker}</h3><dl class="project-details"><dt>status</dt><dd>${escapeHTML(item.status)}</dd><dt>year</dt><dd>${escapeHTML(item.year)}</dd><dt>summary</dt><dd>${escapeHTML(item.summary)}</dd><dt>details</dt><dd class="project-description">${description}</dd><dt>methods</dt><dd class="project-methods">${item.methods.map((method) => `<span>${escapeHTML(method)}</span>`).join(" ")}</dd>${links ? `<dt>links</dt><dd class="project-links">${links}</dd>` : ""}<dt>history</dt><dd>${history}</dd></dl><details class="project-ramble"><summary>(personal notes / writing)</summary><p>${escapeHTML(item.ramble)}</p></details></div><div class="project-image" role="img" aria-label="placeholder for a future project image">${escapeHTML(item.image)}</div></article>`;
     }).join("");
     $("#writing-list").innerHTML = data.writing.map((item) => `<li><span>${safeUrl(item.url) ? `<a href="${escapeHTML(safeUrl(item.url))}" target="_blank" rel="noopener noreferrer">${escapeHTML(item.title)} ↗</a>` : `<span class="archive-title">${escapeHTML(item.title)}</span>`}</span><span class="archive-kind">${escapeHTML(item.kind)}</span><time>${escapeHTML(item.date)}</time></li>`).join("");
-    $("#know-list").innerHTML = knowledgeGroups(data.knowledge.know);
-    $("#dont-know-list").innerHTML = knowledgeGroups(data.knowledge.dontKnow);
-    $("#want-know-list").innerHTML = data.knowledge.wantToKnow.questions.map((question) => `<li>${escapeHTML(question)}</li>`).join("");
+    $("#writing-empty").hidden = data.writing.length > 0;
+    $("#know-list").innerHTML = knowledgeRows(data.knowledge.know);
+    $("#dont-know-list").innerHTML = knowledgeRows(data.knowledge.dontKnow);
+    $("#want-know-list").innerHTML = knowledgeRows(data.knowledge.wantToKnow);
     $("#program-list").innerHTML = data.involvement.map((item, index) => {
       const invite = item.teammates;
       const email = invite ? safeUrl(`mailto:${data.contact.email}?subject=${encodeURIComponent(invite.emailSubject)}`) : "";
       const teammateNote = invite ? `<div class="teammate-invite"><button type="button" class="teammate-toggle" aria-expanded="false" aria-controls="teammate-message-${index}">${escapeHTML(invite.prompt)}</button><div class="teammate-message" id="teammate-message-${index}"><strong>${escapeHTML(invite.heading)}</strong><p>${escapeHTML(invite.message)}</p><a href="${escapeHTML(email)}">[email me ↗]</a></div></div>` : "";
       return `<li class="program-entry"><strong>${escapeHTML(item.name)}</strong> · ${escapeHTML(item.status)}<br><small>${escapeHTML(item.dates)} · ${escapeHTML(item.location)}</small>${teammateNote}</li>`;
     }).join("");
+    $("#volunteer-list").innerHTML = data.volunteer.map((item) => `<li><strong>${escapeHTML(item.name)}</strong><br><small>${escapeHTML(item.role)} · ${escapeHTML(item.location)} · ${escapeHTML(item.dates)}</small></li>`).join("");
+    $("#volunteer-note").textContent = data.volunteerNote;
     $("#changelog-list").innerHTML = data.changelog.map((item) => `<li>${escapeHTML(item)}</li>`).join("");
     $("#future-rooms").innerHTML = data.futureRooms.map((name) => `<span class="future-room secret-target" tabindex="0" aria-label="${escapeHTML(name)}: not built yet">[${escapeHTML(name)}] <small>→ not built</small><span class="secret-tip" aria-hidden="true">[door locked for now]</span></span>`).join(" ");
     document.querySelectorAll("[data-quote-slot]").forEach((node) => {
@@ -161,7 +175,7 @@
     const contact = data.contact;
     $("#resume-contact").innerHTML = `<a href="mailto:${escapeHTML(contact.email)}">${escapeHTML(contact.email)}</a> · <a href="${escapeHTML(safeUrl(contact.github))}">${escapeHTML(contact.github)}</a> · <a href="${escapeHTML(safeUrl(contact.huggingFace))}">${escapeHTML(contact.huggingFace)}</a>`;
     const experience = data.experience.map((item) => `<div class="resume-entry"><div class="resume-entry-head"><strong>${escapeHTML(item.organization)}</strong><span>${escapeHTML(item.dates)}</span></div><div class="resume-entry-sub">${escapeHTML(item.role)}</div><ul>${item.bullets.map((bullet) => `<li>${escapeHTML(bullet)}</li>`).join("")}</ul></div>`).join("");
-    const projects = data.projects.map((item) => {
+    const projects = data.projects.filter((item) => item.resume).map((item) => {
       if (item.resume) {
         const links = [["GitHub", item.links.github], ["Hugging Face CP2", item.links.huggingFace]].filter(([, url]) => safeUrl(url)).map(([label, url]) => `${escapeHTML(label)}: <a href="${escapeHTML(safeUrl(url))}">${escapeHTML(safeUrl(url).replace(/^https?:\/\//, ""))}</a>`).join(" · ");
         return `<div class="resume-entry"><div class="resume-entry-head"><strong>${escapeHTML(item.name)}</strong><span>${escapeHTML(item.resume.dates)}</span></div><div class="resume-entry-sub">${escapeHTML(item.resume.focus)}</div><div>${escapeHTML(item.resume.details)}</div><div class="resume-project-links">${links}</div></div>`;
@@ -170,14 +184,16 @@
     }).join("");
     const programs = data.involvement.filter((item) => item.category === "program").map((item) => `<div class="resume-entry"><div class="resume-entry-head"><strong>${escapeHTML(item.name)}</strong><span>${escapeHTML(item.dates)}</span></div><div>${escapeHTML(item.status)} · ${escapeHTML(item.location)}</div></div>`).join("");
     const education = data.profile.resumeEducation;
+    const educationContent = `<div class="resume-entry"><div class="resume-entry-head"><strong>${escapeHTML(education.school)}</strong><span>${escapeHTML(education.dates)}</span></div><div>${escapeHTML(education.credential)}</div></div><p><strong>AP / SAT:</strong> ${data.academics.coursework.map(escapeHTML).join(" · ")}</p><p><strong>Activities:</strong> ${data.academics.activities.map(escapeHTML).join(" ")}</p><p><strong>Distinctions:</strong> ${data.academics.distinctions.map(escapeHTML).join(" ")}</p>`;
+    const volunteer = data.volunteer.map((item) => `<div class="resume-entry"><div class="resume-entry-head"><strong>${escapeHTML(item.name)}</strong><span>${escapeHTML(item.dates)}</span></div><div>${escapeHTML(item.role)} · ${escapeHTML(item.location)}</div></div>`).join("");
     $("#resume-content").innerHTML = [
       resumeSection("professional summary", `<p>${escapeHTML(data.profile.professionalSummary)}</p>`),
-      resumeSection("Education", `<div class="resume-entry"><div class="resume-entry-head"><strong>${escapeHTML(education.school)}</strong><span>${escapeHTML(education.dates)}</span></div><div>${escapeHTML(education.credential)}</div></div>`),
+      resumeSection("Education", educationContent),
       resumeSection("Experience", experience),
       resumeSection("Projects", projects),
       resumeSection("Skills", data.resume.skills.map(({ label, items }) => `<p><strong>${escapeHTML(label)}:</strong> ${items.map(escapeHTML).join(" · ")}</p>`).join("")),
       resumeSection("Programs / events", programs),
-      resumeSection("Volunteer / community", `<p>${escapeHTML(data.volunteer)}</p>`)
+      resumeSection("Volunteer / community", volunteer)
     ].join("");
   }
 
@@ -196,7 +212,7 @@
       const run = ++generation;
       window.setTimeout(() => {
         if (paused || motion.matches || run !== generation) return;
-        const landing = different(current);
+        const landing = 0;
         let frame = 0;
         function flicker() {
           if (paused || motion.matches || run !== generation) return;

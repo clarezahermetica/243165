@@ -4,11 +4,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#fffdfd">
-    <meta name="description" content="Dana Karen's personal homepage, portfolio, and living CV.">
+    <meta name="description" content="projects, notes, experiments, and other things belonging to dana karen.">
     <title>dana karen : )</title>
-    <link rel="stylesheet" href="styles.css?rev=slot-1">
-    <script src="content.js?rev=slot-1" defer></script>
-    <script src="script.js?rev=slot-1" defer></script>
+    <link rel="stylesheet" href="styles.css?rev=full-pass-1">
+    <script src="content.js?rev=full-pass-1" defer></script>
+    <script src="script.js?rev=full-pass-1" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#main">skip to the actual page ↓</a>
@@ -27,7 +27,7 @@
             <p class="lede" data-text="intro"></p>
             <p class="identity-line">age: <strong id="age">—</strong> <span class="pipe">/</span> currently: <strong data-text="location.current"></strong> <span class="pipe">/</span> mentally: <span class="elsewhere-secret" tabindex="0" aria-describedby="elsewhere-note"><strong data-text="location.mental"></strong><span id="elsewhere-note" class="secret-tip" role="tooltip"></span></span></p>
             <nav class="large-links" aria-label="page shortcuts">
-              <a href="#about">about me.</a><a href="#projects">projects.</a><a href="#knowledge">i don't know.</a><a href="#writing">writing.</a><a href="#contact">contact.</a><a href="?resume=1" class="alt-link">résumé.</a>
+              <a href="#about">about me.</a><a href="#projects">projects.</a><a href="#knowledge">things i know, more or less.</a><a href="#writing">writing.</a><a href="#contact">contact.</a><a href="?resume=1" class="alt-link">résumé.</a>
             </nav>
             <span class="opening-aside" aria-hidden="true">// scroll awhile. this is a document, sorry ^_^ <span class="pink-debris">꒰ა ☆ ໒꒱</span></span>
           </div>
@@ -48,7 +48,7 @@
             <div class="contents-heading"><strong id="contents-title">contents</strong> <button type="button" id="contents-toggle" aria-expanded="true" aria-controls="contents-list">[hide]</button> <span class="secret-target" tabindex="0" aria-label="contents note: you are here, more or less">[?]<span class="secret-tip" aria-hidden="true">you are here, more or less</span></span></div>
             <ol id="contents-list">
               <li><a href="#about">about me</a></li>
-              <li><a href="#education">education</a></li>
+              <li><a href="#education">academics</a></li>
               <li><a href="#plans">future tense</a></li>
               <li><a href="#projects">projects</a></li>
               <li><a href="#knowledge">things i know, more or less</a></li>
@@ -65,13 +65,15 @@
             </section>
 
             <section id="education" class="doc-section education-section">
-              <h2 class="plain-title document-heading">education <span aria-hidden="true">✳</span></h2>
-              <div class="education-line"><strong data-text="education.class"></strong><span data-text="education.note"></span><span class="tiny-stray pink-debris" aria-hidden="true">:3</span></div>
+              <h2 class="plain-title document-heading">academics</h2>
+              <div class="education-line"><strong data-text="education.class"></strong><span aria-hidden="true">✳</span><span data-text="education.credential"></span></div>
+              <div id="academics-detail" class="academics-detail"></div>
             </section>
 
             <section id="plans" class="doc-section plans-section">
               <h2 class="plain-title document-heading">future tense</h2>
-              <ul id="plans-list" class="plain-records" hidden></ul>
+              <p class="small-soft plans-subtitle">// subject to revision, naturally</p>
+              <div id="plans-list" class="plans-list"></div>
             </section>
 
             <section id="projects" class="doc-section projects-section">
@@ -92,12 +94,12 @@
             <section id="writing" class="doc-section writing-section">
               <h2 class="directory-title">index of /writing/ <span class="heading-motif" aria-hidden="true">✎</span></h2>
               <div class="archive-labels"><span>title / file</span><span>kind</span><span>date</span></div><ul id="writing-list" class="writing-list"></ul>
-              <p class="archive-bottom">end of currently available records<span class="secret-target" tabindex="0" aria-label="archive note: still collecting fragments">_<span class="secret-tip" aria-hidden="true">// still collecting fragments</span></span> <span class="pink-debris" aria-hidden="true">✧ ⋆</span></p>
+              <p id="writing-empty" class="secret-target archive-empty" tabindex="0" aria-describedby="writing-empty-note">0 files<span id="writing-empty-note" class="secret-tip" role="tooltip">maybe i should start publishing things</span></p>
               <aside class="quote-fragment quote-by-writing" data-quote-slot="2"></aside>
             </section>
 
             <section id="programs" class="doc-section programs-section">
-              <h2 class="link-title document-heading">assorted affiliations &amp; encounters</h2><ul id="program-list" class="plain-records"></ul><p data-text="volunteer" class="community-placeholder"></p><span class="volunteer-debris" aria-hidden="true">(╥﹏╥) <span>not everything fits in a form</span></span>
+              <h2 class="link-title document-heading">assorted affiliations &amp; encounters</h2><ul id="program-list" class="plain-records"></ul><div class="volunteer-area"><h3>volunteering / community</h3><ul id="volunteer-list" class="plain-records"></ul><p id="volunteer-note" class="small-soft"></p></div>
             </section>
 
             <section id="contact" class="doc-section contact-section">
@@ -110,7 +112,7 @@
 
         <section class="bottom-drawer" aria-label="small site extras">
           <div class="drawer-cell"><div class="drawer-heading">changelog.txt <span class="pink-debris" aria-hidden="true">☆</span></div><ul id="changelog-list"></ul><div id="future-rooms" class="future-rooms"></div></div>
-          <div class="drawer-cell party-cell"><div class="drawer-heading">// questionable button</div><button type="button" id="confetti-button" class="party-button">[ deploy confetti cannon :3 ]</button><p id="party-status" role="status" aria-live="polite">// use responsibly, or don't</p></div>
+          <div class="drawer-cell party-cell"><button type="button" id="confetti-button" class="party-button">[click me]</button><p id="party-status" role="status" aria-live="polite">// use responsibly, or don't</p></div>
         </section>
       </main>
 

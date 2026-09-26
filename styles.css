@@ -287,7 +287,6 @@
   .secret-target:hover>.secret-tip,.secret-target:focus-visible>.secret-tip,.elsewhere-secret:hover>.secret-tip,.elsewhere-secret:focus-visible>.secret-tip,#resume-download:hover>.secret-tip,#resume-download:focus-visible>.secret-tip{visibility:visible;opacity:1}
   .elsewhere-secret{display:inline-block;text-decoration:underline;text-decoration-style:dotted;text-decoration-color:var(--pink-4)}
   .elsewhere-secret .secret-tip{left:auto;right:0;width:260px}
-  .project-path-secret:hover,.project-path-secret:focus-visible{text-decoration:underline;text-decoration-style:dotted}
   .active-project-marker{display:inline-block;margin-left:3px;color:var(--pink-4);font:11px var(--mono);vertical-align:middle}
   .active-project-marker .secret-tip{font-weight:400;letter-spacing:0}
   .community-placeholder{font-size:12px;margin:8px 0 2px}
@@ -341,6 +340,39 @@
 .about-biography{text-transform:none}
 .dana-slot{display:inline-block;inline-size:4.3em;min-inline-size:4.3em;padding:0;border:0;background:none;color:var(--pink-4);font:inherit;line-height:inherit;text-align:center;vertical-align:baseline;cursor:pointer}
 .dana-slot .secret-tip{font:10px/1.25 var(--mono)}
+@media screen{
+  .academics-detail{display:grid;gap:7px;margin-top:8px}
+  .academic-group h3{margin:0 0 3px;font:700 11px var(--mono)}
+  .academic-group ul{margin:0;padding-left:17px;font:12px/1.35 "Times New Roman",Times,serif}
+  .academic-group li{margin:1px 0;overflow-wrap:anywhere}
+  .plans-subtitle{font:10px var(--mono);margin:-3px 0 8px!important}
+  .plan-entry{margin:0 0 12px}
+  .plan-entry h3{margin:0 0 5px;font:700 12px var(--mono)}
+  .plan-entry p{font:13px/1.4 "Times New Roman",Times,serif;margin:0 0 7px}
+  .plan-entry .plan-closing{font-style:italic;margin-top:4px}
+  .project-entry-brief{display:block;padding-left:0!important}
+  .project-entry-brief .project-summary{font:12px/1.35 var(--mono);margin:3px 0!important}
+  .project-brief-note{font:10px var(--mono);color:var(--quiet);margin:4px 0 0!important}
+  .knowledge-column .knowledge-row{padding:0 0 5px;margin:0 0 6px;border-bottom:1px dotted #ddd;overflow-wrap:anywhere}
+  .knowledge-column .knowledge-row:last-child{border-bottom:0;margin-bottom:0}
+  .knowledge-column .knowledge-row::before{content:none}
+  .knowledge-annotation{color:var(--pink-4);font:10px var(--mono);white-space:nowrap}
+  .knowledge-annotation .secret-tip{left:auto;right:0;width:230px;white-space:normal}
+  .archive-empty{width:fit-content;font:11px var(--mono);color:var(--quiet);margin:5px 0!important}
+  .volunteer-area{margin-top:10px}
+  .volunteer-area h3{margin:0;font:700 11px var(--mono)}
+  .volunteer-area .plain-records{margin-top:3px}
+  .volunteer-area small{font:10px/1.3 var(--mono);color:var(--quiet)}
+  #volunteer-note{font:10px/1.35 var(--mono);margin:7px 0 0!important}
+}
+@media screen and (max-width:560px){
+  .knowledge-annotation .secret-tip{max-width:min(230px,calc(100vw - 28px))}
+}
+@media print{
+  .resume-section{break-inside:auto}
+  .resume-section h2{break-after:avoid}
+  .resume-entry{break-inside:avoid}
+}
 .bio-secret{display:inline;position:relative;border:0;background:none;padding:0;color:inherit;font:inherit;text-align:inherit;text-decoration:underline dotted var(--pink-4);text-decoration-thickness:1px;text-underline-offset:2px}
 .bio-secret:hover,.bio-secret:focus-visible,.bio-secret[aria-expanded="true"]{color:var(--pink-4);background:none}
 .bio-secret .secret-tip{left:0;top:calc(100% + 3px);max-width:min(230px,calc(100vw - 36px));color:var(--black)}
@@ -362,5 +394,4 @@
   .elsewhere-secret .secret-tip,#bio-tip-2{left:0;right:auto}
   #bio-tip-1{left:-65px;right:auto}
   .contents-heading .secret-tip{left:auto;right:0}
-  .project-path-secret .secret-tip{left:-50px;right:auto}
 }

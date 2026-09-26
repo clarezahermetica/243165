@@ -1,7 +1,7 @@
 window.siteContent = {
   metadata: {
     version: "0.3",
-    lastUpdated: "2026-09-24",
+    lastUpdated: "2026-09-25",
     birth: { year: 2008, month: 8, day: 18, hour: 3, minute: 59, timeZone: "America/Chicago" }
   },
   profile: {
@@ -9,8 +9,17 @@ window.siteContent = {
     location: { current: "Houston", mental: "everywhere" },
     intro: "i make things to find out what happens.",
     about: {
-      showOnHomepage: false, // Keep the old copy and phrase notes here for the next About rewrite.
+      showOnHomepage: true,
       paragraphs: [
+        "i'm an aspiring independent researcher and founder working primarily in machine learning, with an interest in embodied intelligence and a longstanding soft spot for astrophysics. most of my time is spent reading, experimenting, and trying to build things with my uncooperative laptop.",
+        "i'm always happy to meet people working on interesting things, especially if there's something we can build together. : )"
+      ],
+      secrets: [
+        { phrase: "aspiring", note: "emphasis on aspiring. this word is currently doing a LOT of heavy lifting." },
+        { phrase: "reading", note: "(and scrolling on twitter. but that counts, doesn't it?)" },
+        { phrase: "my uncooperative laptop", note: "currently accepting donations for a macbook /j" }
+      ],
+      archivedParagraphs: [
   "hi, i'm dana! : ) i'm {ageArticle} {age} year old independent researcher and aspiring founder with an unfortunate predilection for large ideas",
   "i spend most of my time experimenting with language models, reading about things that have very little to do with whatever i was supposed to be doing, and trying to turn ambitious ideas into something that works. my interests are primarily in artificial intelligence, astrophysics, and philosophy, although i have a tendency to wander into just about anything that manages to hold my attention long enough.",
   "lately, i've been interested in the nature of intelligence, belief, identity, and agency in artificial systems. we seem to be approaching a point where we're capable of creating machines that can exhibit complex behavior while still having so many unanswered questions about what intelligence actually is. what features of our own behavior are truly prerequisite to intelligence, and what are we just projecting unto systems that we find interesting?",
@@ -20,16 +29,28 @@ window.siteContent = {
   "eventually, i'd like to found a lab of my own, ideally one that gives me the freedom to pursue ambitious research and build things that might otherwise remain unshared theories. i'm drawn to the possibility of developing things that challenge our existing assumptions about intelligence, rather than reproducing what we already know how to do",
   "for now, i'm teaching myself as much as i can, building models, documenting my experiments, and trying to meet other people who are also as incapable of leaving questions unanswered. i don't have an laboratory, an impressive collection of GPUs, or unlimited resources. i do, however, have a too much ambition for my available computing power",
   "we'll see how far that gets me. : )"
-],
-      secrets: [
-        { phrase: "large ideas", note: "i have big dreams and a head that's too small to contain all of them." },
-        { phrase: "aspiring founder", note: "currently accepting donations of computing power and optimism :3" },
-        { phrase: "available computing power", note: "my laptop and i are both trying our best." }
-      ]
+]
     },
     professionalSummary: "Independent researcher and aspiring founder working on language-model development and evaluation. My projects include experimenting with fine-tuning, building training datasets, and investigating questions about machine belief and identity. I approach research through hands-on experimentation, combining technical development with a longstanding interest in astrophysics and philosophy.",
-    education: { class: "class of 2026 · high school diploma", note: "ditched a full-ride scholarship to my dream school to research, create, and build. we'll see how that goes. : )" },
+    education: { class: "class of 2026", credential: "high school diploma" },
     resumeEducation: { school: "Cypress Springs High School", credential: "High school diploma", dates: "2022–2026 · Class of 2026" }
+  },
+  academics: {
+    coursework: [
+      "AP Physics 1 — 5", "AP Precalculus — 5", "AP Physics C — 5", "AP Calculus BC — 5",
+      "AP U.S. History — 4", "AP U.S. Government — 5", "SAT — 1590"
+    ],
+    activities: [
+      "Speech & Debate — 5 years, as a competitor and speech coach/mentor. Events include Original Oratory, Dramatic Interpretation, and Extemporaneous Speaking.",
+      "eSports team — founding secretary, subsequently president.",
+      "Philosophy club — member, subsequently vice president."
+    ],
+    distinctions: [
+      "Former National Speech & Debate Association member/alum.",
+      "Two-time NSDA Nationals qualifier.",
+      "UIL qualifier.",
+      "Harvard speech and debate tournament semifinalist."
+    ]
   },
   // Archived prose for a possible later page; not rendered on the homepage.
   whyLayers: [
@@ -103,7 +124,7 @@ window.siteContent = {
     { label: "thinking about", value: "" },
     { label: "learning", value: "sardu / עברית", citation: "[slacking off]", citationNote: "progress has been... intermittent :3" },
     { label: "listening to", value: "" },
-    { label: "watching", value: "연애기숙학교 돌싱N모솔", url: "https://program.imbc.com/Concept/dolsingmosol" },
+    { label: "watching", value: "연애기숙학교 돌싱N모솔", url: "https://m.imbc.com/program/1006897100000100000" },
     { label: "obsessing over", value: "" },
     { label: "avoiding", value: "the real world" },
     { label: "location", valueFrom: "location.current" },
@@ -179,19 +200,55 @@ window.siteContent = {
         details: "Qwen2.5-7B-Instruct QLoRA adapter trained on 1,018 conversational training examples; blinded model evaluation of four configurations; retrieval kept separate."
       }
     },
-    { name: "[project name 02]", year: "[year]", status: "[status]", summary: "[one-line summary]", description: "[longer project description pending]", methods: ["[method]", "[tool]"], image: "[model screenshot later]", links: { github: "", huggingFace: "", demo: "", notes: "" }, history: "[version history later]", ramble: "[why i started this / what worked / what broke / what happens next]" },
-    { name: "[project name 03]", year: "[year]", status: "[status]", summary: "[one-line summary]", description: "[longer project description pending]", methods: ["[method]"], image: "[gif later :3]", links: { github: "", huggingFace: "", demo: "", notes: "" }, history: "[version history later]", ramble: "[why i started this / what worked / what broke / what happens next]" }
+    {
+      name: "Can a Machine Believe?",
+      active: true,
+      summary: "an independent research project investigating belief, agency, and identity in artificial systems.",
+      note: "// more to come. probably."
+    }
   ],
-  writing: [
-    { title: "[essay / note / paper title]", kind: "essay", date: "[date]", url: "" },
-    { title: "[research note title]", kind: "research", date: "[date]", url: "" },
-    { title: "[fragment from the archive]", kind: "fragment", date: "[date]", url: "" }
+  writing: [],
+  plans: [
+    {
+      heading: "01 / the foreseeable future",
+      paragraphs: [
+        "for now, i'd like to continue working on my technical abilities, explore other areas of machine learning, and actually get better at hardware (lol). i want to make the most of whatever resources are available to me, learn from people who know more than i do, and follow my questions into experiments, specifically ones that are a little beyond my ability to pull off.",
+        "i'd like to get my feet wet, make mistakes, figure out what went wrong, learn something from my mistakes, and (inevitably) find myself in deeper water. eventually, something will go right! and i'll mistake this small victory for proof of my extraordinary genius, allow my ego to inflate to the size of a weather balloon, and meet reality armed with a fat needle. probably an annoying and painful process, but such is life! that's how anyone learns anything worth knowing."
+      ]
+    },
+    {
+      heading: "02 / the rather unreasonable ambition",
+      paragraphs: [
+        "i'd like to work on more ambitious ai models that can interact with and learn from the physical world and bring up questions about learning, identity, and agency. beyond language models, there's a whole world of embodied intelligence that i'd love to get my hands on. there's no shortage of things to investigate along the way, and hopefully i'll find other curious people to build and experiment with",
+        "eventually, i'd like to found a research lab of my own. what would it specialize in? GREAT question ^_^; i'd love to know too! i imagine the particulars will become clear once i've developed my skills, gained more experience, and built enough things to have a better idea of what i'm capable of. i'd rather work toward having the knowledge and experience to make that decision than rush into making it before i know what i'm doing."
+      ],
+      closing: "sorry for not taking the 16-year-old stanford dropout → b2b saas founder route. the scenic route looks cooler anyway. :3"
+    }
   ],
-  plans: [],
   knowledge: {
-    know: [],
-    dontKnow: [],
-    wantToKnow: { questions: [], interests: [] }
+    know: [
+      { text: "Python · JavaScript · TypeScript · C++ · HTML · CSS · React · Next.js" },
+      { text: "PyTorch · Transformers · PEFT · TRL · LoRA / QLoRA · supervised fine-tuning · open-weight language models" },
+      { text: "Dataset construction · preprocessing · conversational data formatting · comparative model evaluation · behavioral testing · retrieval" },
+      { text: "Chrome APIs · Manifest V3 · browser extensions · HTTP(S) proxies · CONNECT tunneling · TCP/IP · sockets · request routing · TLS debugging" },
+      { text: "Circuit design · PCB design", annotation: "[VERY rusty]", note: "don't count on this. last time i touched any of this i was 11, and most of what i knew came from youtube and reddit tutorials i'd been following since i was 10. i'm getting back into learning it so i can suck LESS, but consider this your warning in advance. :3" },
+      { text: "Git · GitHub · Linux · shell · Jupyter · Hugging Face · Vercel" }
+    ],
+    dontKnow: [
+      "Rust · memory management · concurrency · asynchronous programming · performance optimization",
+      "Reinforcement learning · RLHF · DPO · GRPO · RLVR · model distillation · advanced post-training",
+      "Distributed training · GPU optimization · CUDA · mixed-precision training · model parallelism",
+      "Mechanistic interpretability · activation analysis · probing · reasoning and generalization evaluation",
+      "Advanced optimization · numerical methods · information theory",
+      "Microcontrollers · embedded programming · computer architecture · hardware debugging"
+    ],
+    wantToKnow: [
+      "Vision-language-action models · diffusion policies · tactile representation learning · dexterous manipulation · cross-embodiment transfer · sim-to-real learning",
+      "Latent dynamics · object-centric representations · active perception · model-predictive control · POMDPs",
+      "Continual learning · meta-learning · causal representation learning · model-based reinforcement learning · out-of-distribution generalization",
+      "Computational learning theory · PAC learning · computational complexity · formal verification · program synthesis · algorithmic information theory",
+      "FPGA development · hardware–software co-design · neuromorphic computing · real-time embedded systems · edge AI"
+    ]
   },
   resume: {
     skills: [
@@ -218,7 +275,11 @@ window.siteContent = {
       }
     }
   ],
-  volunteer: "[formal volunteering or substantial community work goes here]",
+  volunteer: [
+    { name: "Turtle Island Restoration Network", role: "Volunteer", location: "Galveston, Texas", dates: "2022–2024" },
+    { name: "Houston Public Library", role: "Volunteer", location: "Houston, Texas", dates: "2022" }
+  ],
+  volunteerNote: "// i'd like to make more time for work that matters outside my own little corner of the internet. more soon, hopefully. : )",
   contact: {
     email: "asemotadana@gmail.com",
     github: "https://github.com/clarezahermetica",
@@ -308,7 +369,7 @@ window.siteContent = {
       { text: "If we could see the miracle of a single flower clearly our whole life would change.", author: "unknown" }
     ],
     tooltips: { about: "[a little more than a short bio, if you keep clicking] 🪷", projects: "only the first little buds. more things are growing. ♡" },
-    hiddenStar: "[a little personal fragment goes here] 🪷"
+    hiddenStar: "[nothing important. i just wanted you to find something.] 🪷"
   },
   changelog: ["v0.1 — file created", "v0.2 — opened it up", "v0.3 — moved more things around"]
 };
