@@ -95,7 +95,7 @@ test("homepage sections and contents follow the curated order", () => {
   assert.doesNotMatch(html, /id="(?:history|experience|interests|volunteer)"|href="#(?:history|experience|interests|volunteer)"/);
   assert.match(html, /id="program-list"[^]*?id="volunteer-list"/);
   assert.equal(context.window.siteContent.plans.length, 2);
-  assert.match(element("#plans-list").innerHTML, /<details class="plan-entry"><summary>the foreseeable future[^]*?<details class="plan-entry"><summary>further afield/);
+  assert.match(element("#plans-list").innerHTML, /<details class="plan-entry"><summary><span class="plan-title">the foreseeable future<\/span>[^]*?<details class="plan-entry"><summary><span class="plan-title">further afield<\/span>/);
   assert.equal((element("#plans-list").innerHTML.match(/<details class="plan-entry">/g) || []).length, 2);
   assert.match(html, /id="about"[^]*?id="education"[^]*?id="plans"[^]*?id="projects"/);
   assert.match(html, /<h2 class="plain-title document-heading">academics<\/h2>[^]*?class="plain-title document-heading">future tense/);

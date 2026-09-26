@@ -341,29 +341,29 @@
 .dana-slot{display:inline-block;inline-size:4.3em;min-inline-size:4.3em;padding:0;border:0;background:none;color:var(--pink-4);font:inherit;line-height:inherit;text-align:center;vertical-align:baseline;cursor:pointer}
 .dana-slot .secret-tip{font:10px/1.25 var(--mono)}
 @media screen{
-  .education-line{display:inline-flex;align-items:baseline;flex-wrap:wrap;border-bottom:1px dotted var(--pink-3);padding:3px 0 6px;gap:4px 9px}
-  .education-line strong{color:var(--pink-4)}
-  .education-line span[aria-hidden]{color:var(--pink-4);font:11px var(--mono)}
-  .academics-detail{display:block;margin-top:10px}
-  .academic-group{min-width:0;margin-top:11px}
+  .academics-layout{display:grid;grid-template-columns:minmax(0,1fr) 185px;grid-template-areas:"main file";gap:16px;align-items:start}
+  .academic-file{grid-area:file}
+  .academic-file dl{grid-template-columns:55px minmax(0,1fr)}
+  .academics-detail{grid-area:main;min-width:0}
+  .academic-group{min-width:0;margin:0 0 12px}
   .academic-group h3{margin:0 0 5px;color:var(--pink-4);font:700 10px var(--mono)}
-  .academic-scores dl{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 16px;margin:0;border-top:1px solid #aaa;font:11px/1.35 var(--mono)}
-  .academic-scores dl>div{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;padding:4px 2px;border-bottom:1px dotted #ccc}
-  .academic-scores dt{overflow-wrap:anywhere}.academic-scores dd{margin:0;color:var(--pink-4);font-weight:700}
+  .academic-scores dl{margin:0;border-top:1px solid #aaa}
+  .academic-scores dl>div{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;padding:3px 2px;border-bottom:1px dotted #ccc}
+  .academic-scores dt{font:12px/1.35 "Times New Roman",Times,serif;overflow-wrap:anywhere}.academic-scores dd{margin:0;color:var(--pink-4);font:700 11px/1.35 var(--mono)}
   .academic-activities{border-top:1px solid #aaa;padding-top:6px}
-  .academic-activities p{margin:0!important;padding:5px 0 6px 12px;border-bottom:1px dotted #ccc;border-left:2px solid var(--pink-2);font:13px/1.35 "Times New Roman",Times,serif}
-  .academic-activities p+p{border-left-color:transparent}
-  .academic-distinctions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 12px;border-top:1px solid #aaa;padding-top:6px}
-  .academic-distinctions h3{grid-column:1/-1}
-  .academic-distinctions p{margin:0!important;padding:3px 0 3px 12px;border-bottom:1px dotted #ccc;font:11px/1.3 var(--mono);position:relative}
+  .academic-activity{padding:4px 0 7px;border-bottom:1px dotted #ccc}
+  .academic-activity strong{font:700 13px/1.35 "Times New Roman",Times,serif}
+  .academic-activity p{margin:2px 0 0!important;font:13px/1.4 "Times New Roman",Times,serif}
+  .academic-distinctions{border-top:1px solid #aaa;padding-top:6px}
+  .academic-distinctions p{margin:0!important;padding:4px 0 4px 12px;border-bottom:1px dotted #ccc;font:12px/1.35 "Times New Roman",Times,serif;position:relative}
   .academic-distinctions p::before{content:"✳";position:absolute;left:0;color:var(--pink-4);font-size:9px}
   .plan-entry{margin:0;border-top:1px dotted #aaa}
   .plan-entry:last-child{border-bottom:1px dotted #aaa}
-  .plan-entry summary{display:flex;align-items:baseline;justify-content:space-between;gap:12px;list-style:none;padding:10px 3px;color:var(--link-blue);font:700 15px/1.3 var(--mono);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
-  .plan-entry summary::-webkit-details-marker{display:none}
+  .plan-entry summary{width:fit-content;padding:8px 0;color:var(--link-blue);font:700 14px/1.4 var(--mono);text-decoration:underline;text-underline-offset:2px;cursor:pointer}
+  .plan-entry summary::marker{color:var(--pink-4);font-size:11px}
+  .plan-title::before{content:"("}.plan-title::after{content:")"}
   .plan-entry summary:hover,.plan-entry summary:focus-visible{color:var(--pink-4)}
   .plan-entry summary:focus-visible{outline:1px dotted var(--pink-4);outline-offset:2px}
-  .plan-indicator::before{content:"▸";color:var(--pink-4);font:12px var(--mono)}.plan-entry[open] .plan-indicator::before{content:"▾"}
   .plan-prose{max-width:65ch;padding:2px 5px 10px}
   .plan-entry p{font:14px/1.5 "Times New Roman",Times,serif;margin:0 0 10px}
   .plan-entry .plan-closing{font-style:italic;margin-top:4px}
@@ -385,7 +385,8 @@
 }
 @media screen and (max-width:560px){
   .knowledge-annotation .secret-tip{max-width:min(230px,calc(100vw - 28px))}
-  .academic-scores dl,.academic-distinctions{grid-template-columns:1fr}
+  .academics-layout{grid-template-columns:1fr;grid-template-areas:"file" "main";gap:12px}
+  .academic-file{max-width:230px}
 }
 @media print{
   .resume-section{break-inside:auto}
