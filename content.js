@@ -37,7 +37,7 @@ window.siteContent = {
   },
   academics: {
     coursework: [
-      "AP Physics 1 — 5", "AP Precalculus — 5", "AP Physics C — 5", "AP Calculus BC — 5",
+      "AP Physics 1 — 5", "AP Precalculus — 5", "AP Calculus BC — 5",
       "AP U.S. History — 4", "AP U.S. Government — 5", "SAT — 1590"
     ],
     activities: [

@@ -297,7 +297,7 @@ test("academics contains the exact scores while Cal Hacks keeps its teammate sec
     const [name, score] = item.split(" — ");
     assert.ok(academic.includes(`<dt>${name}</dt><dd>${score}</dd>`));
   }
-  assert.match(academic, /AP Physics C<\/dt><dd>5/);
+  assert.doesNotMatch(academic, /AP Physics C/);
   assert.match(academic, /Three-time UIL qualifier\./);
   assert.doesNotMatch(academic, /<details|<summary|<button/);
   assert.doesNotMatch(academic, /Physics C: Mechanics|Physics C: Electricity/);
@@ -316,6 +316,7 @@ test("résumé receives academics and real volunteering without homepage-only in
   const education = printed.split("<h2>Education</h2>")[1].split("</section>")[0];
   const volunteer = printed.split("<h2>Volunteer / community</h2>")[1].split("</section>")[0];
   for (const score of context.window.siteContent.academics.coursework) assert.ok(education.includes(score), `Missing ${score}`);
+  assert.doesNotMatch(education, /AP Physics C/);
   for (const award of context.window.siteContent.academics.distinctions) assert.ok(education.includes(award.replaceAll("&", "&amp;")), `Missing ${award}`);
   assert.match(education, /Three-time UIL qualifier\./);
   assert.match(education, /Cypress Springs High School.*2022–2026 · Class of 2026.*High school diploma/);
