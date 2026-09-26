@@ -375,7 +375,8 @@ window.siteContent = {
       { text: "Rules for happiness: something to do, someone to love, something to hope for.", author: "Immanuel Kant" },
       { text: "Only prisoners have time to read, and if you want to engage in a twenty-year long research project funded by the state, you will have to kill someone.", author: "Mark Fisher" },
       null,
-      { text: "If we could see the miracle of a single flower clearly our whole life would change.", author: "unknown" }
+      { text: "If we could see the miracle of a single flower clearly our whole life would change.", author: "unknown" },
+      { text: "Madness is rare in individuals—but in groups, parties, nations, and ages it is the rule,", author: "Friedrich Nietzsche (quoted by Peter Thiel)" }
     ],
     tooltips: { about: "[a little more than a short bio, if you keep clicking] 🪷", projects: "only the first little buds. more things are growing. ♡" },
     hiddenStar: "[nothing important. i just wanted you to find something.] 🪷"

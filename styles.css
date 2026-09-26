@@ -371,6 +371,7 @@
   .plan-prose{max-width:65ch;padding:2px 5px 10px}
   .plan-entry p{font:14px/1.5 "Times New Roman",Times,serif;margin:0 0 10px}
   .plan-entry .plan-closing{font-style:italic;margin-top:4px}
+  .quote-after-plans{margin:8px 6% 0 auto;border-left:1px solid var(--pink-3);padding-left:6px}
   .project-entry-no-image{grid-template-columns:minmax(0,1fr);padding-left:0!important}
   .project-entry-brief{display:block;padding-left:0!important}
   .project-entry-brief .project-summary{font:12px/1.35 var(--mono);margin:3px 0!important}
