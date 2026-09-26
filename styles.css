@@ -341,9 +341,9 @@
 .dana-slot{display:inline-block;inline-size:4.3em;min-inline-size:4.3em;padding:0;border:0;background:none;color:var(--pink-4);font:inherit;line-height:inherit;text-align:center;vertical-align:baseline;cursor:pointer}
 .dana-slot .secret-tip{font:10px/1.25 var(--mono)}
 @media screen{
-  .academics-layout{display:grid;grid-template-columns:minmax(0,1fr) 185px;grid-template-areas:"main file";gap:16px;align-items:start}
+  .academics-layout{display:grid;grid-template-columns:minmax(0,1fr) 200px;grid-template-areas:"main file";gap:16px;align-items:start}
   .academic-file{grid-area:file}
-  .academic-file dl{grid-template-columns:55px minmax(0,1fr)}
+  .academic-file dl{grid-template-columns:70px minmax(0,1fr)}
   .academics-detail{grid-area:main;min-width:0}
   .academic-group{min-width:0;margin:0 0 12px}
   .academic-group h3{margin:0 0 5px;color:var(--pink-4);font:700 10px var(--mono)}
