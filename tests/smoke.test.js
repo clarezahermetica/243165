@@ -380,7 +380,8 @@ test("two real active projects render while the résumé keeps the detailed Land
   assert.match(second, /<dt>status<\/dt><dd>in progress · study in development<\/dd><dt>summary<\/dt>/);
   assert.equal((second.match(/class="project-description"/g) || []).length, 1);
   assert.equal((second.match(/class="project-description"><p>/g) || []).length, 1);
-  assert.doesNotMatch(second, /<dt>(?:year|methods|links|history)<\/dt>|project-ramble|project-image|coming soon|more to come/);
+  assert.match(second, /<details class="project-ramble"><summary>\(personal notes \/ writing\)<\/summary><\/details>/);
+  assert.doesNotMatch(second, /<dt>(?:year|methods|links|history)<\/dt>|project-image|coming soon|more to come/);
   assert.doesNotMatch(website, /\[project name 02\]|\[project name 03\]/);
   assert.equal(context.window.siteContent.memotifs.tooltips.projects, "only the first little buds. more things are growing. ♡");
   assert.doesNotMatch(html, /work will go here; the scaffolding is real/);
@@ -474,7 +475,7 @@ test("personal copy and tiny cleanup stay in place", () => {
   assert.deepEqual(Array.from(context.window.siteContent.changelog), ["v0.1 — file created", "v0.2 — opened it up", "v0.3 — moved more things around"]);
   assert.match(element("#currently-list").innerHTML, /scheming.*citation needed.*evidence withheld :3/);
   assert.match(element("#project-list").innerHTML, /<details class="project-ramble">/);
-  assert.equal((element("#project-list").innerHTML.match(/\(personal notes \/ writing\)/g) || []).length, 1);
+  assert.equal((element("#project-list").innerHTML.match(/\(personal notes \/ writing\)/g) || []).length, 2);
   assert.equal(element("#motif-reveal").textContent, "[nothing important. i just wanted you to find something.] 🪷");
   assert.match(html, /id="confetti-button" class="party-button">\[click me\]<\/button>/);
   assert.match(html, /<figcaption>me\.gif<\/figcaption>/);
