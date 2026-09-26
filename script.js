@@ -62,15 +62,16 @@
     if (!data.profile.about.showOnHomepage) {
       return;
     }
-    $("#about-biography").innerHTML = aboutOpening + data.profile.about.paragraphs.map((paragraph) => {
+    const paragraphs = data.profile.about.paragraphs.map((paragraph) => {
       let content = escapeHTML(paragraph.replaceAll("{ageArticle}", ageArticleFor(renderedBiographyAge)).replaceAll("{age}", String(renderedBiographyAge))).replace(/\n/g, "<br>");
       data.profile.about.secrets.forEach((secret, secretIndex) => {
         const phrase = escapeHTML(secret.phrase);
         const tipId = `bio-tip-${secretIndex}`;
         content = content.replace(phrase, `<button type="button" class="bio-secret" aria-label="${phrase}" aria-describedby="${tipId}" aria-expanded="false">${phrase}<span id="${tipId}" class="secret-tip" role="tooltip">${escapeHTML(secret.note)}</span></button>`);
       });
-      return `<p>${content}</p>`;
-    }).join("");
+      return content;
+    });
+    $("#about-biography").innerHTML = aboutOpening.replace(/<\/p>\s*$/, ` ${paragraphs[0]}</p>`) + paragraphs.slice(1).map((content) => `<p>${content}</p>`).join("");
   }
   function refreshAge() {
     const age = ageAt(new Date());
@@ -212,7 +213,7 @@
       const run = ++generation;
       window.setTimeout(() => {
         if (paused || motion.matches || run !== generation) return;
-        const landing = 0;
+        const landing = different(current);
         let frame = 0;
         function flicker() {
           if (paused || motion.matches || run !== generation) return;

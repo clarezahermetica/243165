@@ -141,7 +141,8 @@ test("real contact links and printable content are rendered from one data source
 
 test("the homepage shows the supplied short About copy with three phrase secrets", () => {
   const biography = element("#about-biography").innerHTML;
-  assert.match(biography, /hi, i'm <button[^]*?>dana<\/span>[^]*?! : \)<\/p>/);
+  assert.match(biography, /hi, i'm <button[^]*?>dana<\/span>[^]*?! : \) i&#39;m an <button[^]*?aspiring[^]*?independent researcher and founder working primarily in machine learning/);
+  assert.equal((biography.match(/<p(?:\s|>)/g) || []).length, 2);
   assert.match(biography, /i&#39;m an <button[^]*?aspiring[^]*?independent researcher and founder working primarily in machine learning/);
   assert.match(biography, /there&#39;s something we can build together\. : \)/);
   assert.doesNotMatch(biography, /aspiring founder|large ideas/);
@@ -221,7 +222,7 @@ test("Dana's slot flickers briefly, pauses, and stays static with reduced motion
     cursor = next + 1;
   }
   assert.ok(forms.includes(script.textContent));
-  assert.equal(script.textContent, "dana");
+  assert.notEqual(script.textContent, "dana");
   button.handlers.click();
   assert.equal(button.getAttribute("aria-pressed"), "true");
   const frozen = script.textContent;
