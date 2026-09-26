@@ -48,7 +48,7 @@ window.siteContent = {
     distinctions: [
       "Former National Speech & Debate Association member/alum.",
       "Two-time NSDA Nationals qualifier.",
-      "UIL qualifier.",
+      "Three-time UIL qualifier.",
       "Harvard speech and debate tournament semifinalist."
     ]
   },
@@ -203,21 +203,31 @@ window.siteContent = {
     {
       name: "Can a Machine Believe?",
       active: true,
+      year: "",
+      status: "in progress · study in development",
       summary: "an independent research project investigating belief, agency, and identity in artificial systems.",
-      note: "// more to come. probably."
+      description: [
+        "what would it mean for a machine to believe something, and what would count as evidence? can a machine believe? investigates the space between how artificial systems behave and how people interpret that behavior, particularly when it comes to questions of belief, agency, and identity.",
+        "i'm developing a research site and participant study to explore some of these questions, alongside an accompanying paper. the research is ongoing, the study isn't open yet, and i don't have any grand conclusions to announce. more on that eventually. : )"
+      ],
+      methods: [],
+      links: {},
+      history: [],
+      ramble: "",
+      image: ""
     }
   ],
   writing: [],
   plans: [
     {
-      heading: "01 / the foreseeable future",
+      heading: "the foreseeable future",
       paragraphs: [
         "for now, i'd like to continue working on my technical abilities, explore other areas of machine learning, and actually get better at hardware (lol). i want to make the most of whatever resources are available to me, learn from people who know more than i do, and follow my questions into experiments, specifically ones that are a little beyond my ability to pull off.",
         "i'd like to get my feet wet, make mistakes, figure out what went wrong, learn something from my mistakes, and (inevitably) find myself in deeper water. eventually, something will go right! and i'll mistake this small victory for proof of my extraordinary genius, allow my ego to inflate to the size of a weather balloon, and meet reality armed with a fat needle. probably an annoying and painful process, but such is life! that's how anyone learns anything worth knowing."
       ]
     },
     {
-      heading: "02 / the rather unreasonable ambition",
+      heading: "further afield",
       paragraphs: [
         "i'd like to work on more ambitious ai models that can interact with and learn from the physical world and bring up questions about learning, identity, and agency. beyond language models, there's a whole world of embodied intelligence that i'd love to get my hands on. there's no shortage of things to investigate along the way, and hopefully i'll find other curious people to build and experiment with",
         "eventually, i'd like to found a research lab of my own. what would it specialize in? GREAT question ^_^; i'd love to know too! i imagine the particulars will become clear once i've developed my skills, gained more experience, and built enough things to have a better idea of what i'm capable of. i'd rather work toward having the knowledge and experience to make that decision than rush into making it before i know what i'm doing."

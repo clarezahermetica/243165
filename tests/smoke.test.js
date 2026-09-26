@@ -95,7 +95,8 @@ test("homepage sections and contents follow the curated order", () => {
   assert.doesNotMatch(html, /id="(?:history|experience|interests|volunteer)"|href="#(?:history|experience|interests|volunteer)"/);
   assert.match(html, /id="program-list"[^]*?id="volunteer-list"/);
   assert.equal(context.window.siteContent.plans.length, 2);
-  assert.match(element("#plans-list").innerHTML, /01 \/ the foreseeable future[^]*?02 \/ the rather unreasonable ambition/);
+  assert.match(element("#plans-list").innerHTML, /<details class="plan-entry"><summary>the foreseeable future[^]*?<details class="plan-entry"><summary>further afield/);
+  assert.equal((element("#plans-list").innerHTML.match(/<details class="plan-entry">/g) || []).length, 2);
   assert.match(html, /id="about"[^]*?id="education"[^]*?id="plans"[^]*?id="projects"/);
   assert.match(html, /<h2 class="plain-title document-heading">academics<\/h2>[^]*?class="plain-title document-heading">future tense/);
   assert.match(css, /\.document-heading\{border-bottom:1px solid #777/);
@@ -169,11 +170,11 @@ test("locked About and Future Tense copy retains its paragraphs and punctuation"
     ["my uncooperative laptop", "currently accepting donations for a macbook /j"]
   ]);
   assert.deepEqual(Array.from(data.plans, ({ heading, paragraphs, closing }) => [heading, Array.from(paragraphs), closing]), [
-    ["01 / the foreseeable future", [
+    ["the foreseeable future", [
       "for now, i'd like to continue working on my technical abilities, explore other areas of machine learning, and actually get better at hardware (lol). i want to make the most of whatever resources are available to me, learn from people who know more than i do, and follow my questions into experiments, specifically ones that are a little beyond my ability to pull off.",
       "i'd like to get my feet wet, make mistakes, figure out what went wrong, learn something from my mistakes, and (inevitably) find myself in deeper water. eventually, something will go right! and i'll mistake this small victory for proof of my extraordinary genius, allow my ego to inflate to the size of a weather balloon, and meet reality armed with a fat needle. probably an annoying and painful process, but such is life! that's how anyone learns anything worth knowing."
     ], undefined],
-    ["02 / the rather unreasonable ambition", [
+    ["further afield", [
       "i'd like to work on more ambitious ai models that can interact with and learn from the physical world and bring up questions about learning, identity, and agency. beyond language models, there's a whole world of embodied intelligence that i'd love to get my hands on. there's no shortage of things to investigate along the way, and hopefully i'll find other curious people to build and experiment with",
       "eventually, i'd like to found a research lab of my own. what would it specialize in? GREAT question ^_^; i'd love to know too! i imagine the particulars will become clear once i've developed my skills, gained more experience, and built enough things to have a better idea of what i'm capable of. i'd rather work toward having the knowledge and experience to make that decision than rush into making it before i know what i'm doing."
     ], "sorry for not taking the 16-year-old stanford dropout → b2b saas founder route. the scenic route looks cooler anyway. :3"]
@@ -292,8 +293,13 @@ test("academics contains the exact scores while Cal Hacks keeps its teammate sec
   const educationSection = html.slice(html.indexOf('id="education"'), html.indexOf('id="projects"'));
   assert.doesNotMatch(educationSection, /Cypress Springs High School|2022–2026/);
   const academic = element("#academics-detail").innerHTML;
-  for (const item of data.academics.coursework) assert.ok(academic.includes(item));
-  assert.match(academic, /AP Physics C — 5/);
+  for (const item of data.academics.coursework) {
+    const [name, score] = item.split(" — ");
+    assert.ok(academic.includes(`<dt>${name}</dt><dd>${score}</dd>`));
+  }
+  assert.match(academic, /AP Physics C<\/dt><dd>5/);
+  assert.match(academic, /Three-time UIL qualifier\./);
+  assert.doesNotMatch(academic, /<details|<summary|<button/);
   assert.doesNotMatch(academic, /Physics C: Mechanics|Physics C: Electricity/);
   assert.match(academic, /Two-time NSDA Nationals qualifier/);
   const programs = element("#program-list").innerHTML;
@@ -311,6 +317,7 @@ test("résumé receives academics and real volunteering without homepage-only in
   const volunteer = printed.split("<h2>Volunteer / community</h2>")[1].split("</section>")[0];
   for (const score of context.window.siteContent.academics.coursework) assert.ok(education.includes(score), `Missing ${score}`);
   for (const award of context.window.siteContent.academics.distinctions) assert.ok(education.includes(award.replaceAll("&", "&amp;")), `Missing ${award}`);
+  assert.match(education, /Three-time UIL qualifier\./);
   assert.match(education, /Cypress Springs High School.*2022–2026 · Class of 2026.*High school diploma/);
   assert.match(volunteer, /Turtle Island Restoration Network.*2022–2024.*Volunteer · Galveston, Texas/);
   assert.match(volunteer, /Houston Public Library.*2022.*Volunteer · Houston, Texas/);
@@ -368,6 +375,12 @@ test("two real active projects render while the résumé keeps the detailed Land
   assert.match(first, /\[a rather lengthy account of how this got out of hand is forthcoming\.\]/);
   assert.match(first, /\[project image \/ artifact goes here\]/);
   assert.match(website, /Can a Machine Believe\?[^]*?an independent research project investigating belief, agency, and identity in artificial systems\./);
+  const second = website.split('<article class="project-entry project-entry-no-image">')[1].split("</article>")[0];
+  assert.match(second, /\.\/projects\/02\/[^]*?<h3>Can a Machine Believe\? <span class="secret-target active-project-marker"/);
+  assert.match(second, /<dt>status<\/dt><dd>in progress · study in development<\/dd><dt>summary<\/dt>/);
+  assert.equal((second.match(/class="project-description"/g) || []).length, 1);
+  assert.equal((second.match(/class="project-description"><p>/g) || []).length, 1);
+  assert.doesNotMatch(second, /<dt>(?:year|methods|links|history)<\/dt>|project-ramble|project-image|coming soon|more to come/);
   assert.doesNotMatch(website, /\[project name 02\]|\[project name 03\]/);
   assert.equal(context.window.siteContent.memotifs.tooltips.projects, "only the first little buds. more things are growing. ♡");
   assert.doesNotMatch(html, /work will go here; the scaffolding is real/);
