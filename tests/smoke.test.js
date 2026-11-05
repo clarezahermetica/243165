@@ -135,6 +135,7 @@ test("real contact links and printable content are rendered from one data source
   assert.match(element("#resume-content").innerHTML, /Cypress Springs High School/);
   assert.match(element("#instagram-slot").innerHTML, /https:\/\/www\.instagram\.com\/08clareza/);
   assert.match(element("#substack-slot").innerHTML, /https:\/\/243165\.substack\.com\//);
+  assert.match(element("#tumblr-slot").innerHTML, /href="https:\/\/243165\.tumblr\.com\/"[^>]*>tumblr ↗<\/a>/);
   assert.match(element("#x-slot").innerHTML, /https:\/\/x\.com\/88clareza/);
   const contact = html.slice(html.indexOf('id="contact"'), html.indexOf('class="bottom-drawer"'));
   assert.doesNotMatch(contact, /<li>|transmission ends|\d\d \/ /);

@@ -160,7 +160,7 @@
     $("#email-link").href = `mailto:${data.contact.email}`;
     $("#github-link").href = safeUrl(data.contact.github);
     $("#huggingface-link").href = safeUrl(data.contact.huggingFace);
-    [["instagram", "instagram"], ["substack", "substack"], ["x", "x / twitter"]].forEach(([key, label]) => {
+    [["instagram", "instagram"], ["substack", "substack"], ["tumblr", "tumblr"], ["x", "x / twitter"]].forEach(([key, label]) => {
       const url = safeUrl(data.contact[key]);
       $(`#${key}-slot`).innerHTML = url ? `<a href="${escapeHTML(url)}" target="_blank" rel="noopener noreferrer">${label} ↗</a>` : `<span class="contact-unbuilt">${label} <small>[link pending]</small></span>`;
     });

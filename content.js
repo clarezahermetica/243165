@@ -295,6 +295,7 @@ window.siteContent = {
     huggingFace: "https://huggingface.co/clarezahermetica",
     instagram: "https://www.instagram.com/08clareza",
     substack: "https://243165.substack.com/",
+    tumblr: "https://243165.tumblr.com/",
     x: "https://x.com/88clareza"
   },
   music: { tracks: [
