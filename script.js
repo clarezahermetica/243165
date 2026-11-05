@@ -129,6 +129,7 @@
     $("#project-list").innerHTML = data.projects.map((item, index) => {
       const path = `./projects/${String(index + 1).padStart(2, "0")}/`;
       const activeMarker = item.active ? ` <span class="secret-target active-project-marker" tabindex="0" aria-label="active project: currently working on this">✳<span class="secret-tip" aria-hidden="true">currently working on this : )</span></span>` : "";
+      if (item.placeholder) return `<article class="project-entry project-entry-no-image project-entry-placeholder"><div><div class="project-meta">drwxr-xr-x &nbsp; ${path} <span>♡</span></div><h3>${escapeHTML(item.name)}</h3></div></article>`;
       const links = Object.entries(item.links ?? {}).filter(([, url]) => safeUrl(url)).map(([label, url]) => `<a href="${escapeHTML(safeUrl(url))}" target="_blank" rel="noopener noreferrer">${escapeHTML(item.linkLabels?.[label] ?? `${label} ↗`)}</a>`).join("");
       const description = Array.isArray(item.description) ? item.description.map((paragraph) => `<p>${escapeHTML(paragraph)}</p>`).join("") : escapeHTML(item.description);
       const history = Array.isArray(item.history) ? `<ol class="project-history-list">${item.history.map(({ version, note }) => `<li><strong>${escapeHTML(version)}</strong> — ${escapeHTML(note)}</li>`).join("")}</ol>` : escapeHTML(item.history);
@@ -144,7 +145,8 @@
       const invite = item.teammates;
       const email = invite ? safeUrl(`mailto:${data.contact.email}?subject=${encodeURIComponent(invite.emailSubject)}`) : "";
       const teammateNote = invite ? `<div class="teammate-invite"><button type="button" class="teammate-toggle" aria-expanded="false" aria-controls="teammate-message-${index}">${escapeHTML(invite.prompt)}</button><div class="teammate-message" id="teammate-message-${index}"><strong>${escapeHTML(invite.heading)}</strong><p>${escapeHTML(invite.message)}</p><a href="${escapeHTML(email)}">[email me ↗]</a></div></div>` : "";
-      return `<li class="program-entry"><strong>${escapeHTML(item.name)}</strong> · ${escapeHTML(item.status)}<br><small>${escapeHTML(item.dates)} · ${escapeHTML(item.location)}</small>${teammateNote}</li>`;
+      const links = (item.links ?? []).map(({ label, url }) => safeUrl(url) ? `<a href="${escapeHTML(safeUrl(url))}" target="_blank" rel="noopener noreferrer">${escapeHTML(label)}</a>` : "").filter(Boolean).join(" · ");
+      return `<li class="program-entry"><strong>${escapeHTML(item.name)}</strong> · ${escapeHTML(item.status)}<br><small>${escapeHTML(item.dates)} · ${escapeHTML(item.location)}</small>${links ? `<div class="program-links">${links}</div>` : ""}${teammateNote}</li>`;
     }).join("");
     $("#volunteer-list").innerHTML = data.volunteer.map((item) => `<li><strong>${escapeHTML(item.name)}</strong><br><small>${escapeHTML(item.role)} · ${escapeHTML(item.location)} · ${escapeHTML(item.dates)}</small></li>`).join("");
     $("#volunteer-note").textContent = data.volunteerNote;

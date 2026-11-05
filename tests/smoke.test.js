@@ -253,7 +253,7 @@ test("print résumé uses only the professional summary and retains plain text s
   assert.doesNotMatch(printed, /Writing \/ research|\[essay \/ note \/ paper title\]/);
   assert.match(printed, /Cypress Springs High School.*2022–2026 · Class of 2026.*High school diploma/);
   assert.doesNotMatch(printed, /ditched a full-ride scholarship|need teammates|i don&#39;t bite|\[email me/);
-  assert.match(printed, /Cal Hacks 13\.0.*October 23–25, 2026.*Accepted — upcoming.*San Francisco, California/);
+  assert.match(printed, /Cal Hacks 13\.0.*October 23–25, 2026.*attended.*San Francisco, California/);
   assert.match(printed, /Python · JavaScript · TypeScript · C\+\+ · HTML · CSS/);
   assert.match(css, /@media print[\s\S]*\.page-shell[^}]*display:none!important/);
   assert.match(css, /@media print[\s\S]*\.resume-page[^}]*display:block!important/);
@@ -287,7 +287,7 @@ test("knowledge stays in the existing three columns and print includes only work
   assert.doesNotMatch(section, /broader interests/);
 });
 
-test("academics contains the exact scores while Cal Hacks keeps its teammate secret", () => {
+test("academics contains the exact scores while Cal Hacks shows its attended links", () => {
   const data = context.window.siteContent;
   assert.equal(data.profile.education.class, "class of 2026");
   assert.equal(data.profile.education.credential, "high school diploma");
@@ -304,10 +304,10 @@ test("academics contains the exact scores while Cal Hacks keeps its teammate sec
   assert.doesNotMatch(academic, /Physics C: Mechanics|Physics C: Electricity/);
   assert.match(academic, /Two-time NSDA Nationals qualifier/);
   const programs = element("#program-list").innerHTML;
-  assert.match(programs, /Cal Hacks 13\.0.*Accepted — upcoming.*October 23–25, 2026.*San Francisco, California/s);
-  assert.match(programs, /\[need teammates\?\]/);
-  assert.match(programs, /mailto:asemotadana@gmail\.com\?subject=Cal%20Hacks%2013\.0%20teammates/);
-  assert.match(programs, /\[email me ↗\]/);
+  assert.match(programs, /Cal Hacks 13\.0.*attended.*October 23–25, 2026.*San Francisco, California/s);
+  assert.match(programs, /href="https:\/\/github\.com\/clarezahermetica\/doxa"[^>]*>\[project \/ doxa ↗\]<\/a>/);
+  assert.match(programs, /href="https:\/\/www\.tumblr\.com\/243165\/831938833923915776\/of-montreal-the-past-is-a-grotesque-animal-cal"[^>]*>\[photos \/ tumblr ↗\]<\/a>/);
+  assert.doesNotMatch(programs, /need teammates|teammate-invite|Accepted — upcoming/);
   assert.equal(element("#writing-list").innerHTML, "");
   assert.equal(element("#writing-empty").hidden, false);
 });
@@ -354,7 +354,7 @@ test("the three factual experience entries remain only in the résumé", () => {
   assert.deepEqual(Array.from(context.window.siteContent.changelog), ["v0.1 — file created", "v0.2 — opened it up", "v0.3 — moved more things around"]);
 });
 
-test("two real active projects render while the résumé keeps the detailed Landling record", () => {
+test("three active projects and one future slot render while the résumé keeps the detailed Landling record", () => {
   const project = context.window.siteContent.projects[0];
   const website = element("#project-list").innerHTML;
   const first = website.split('<article class="project-entry">')[1].split("</article>")[0];
@@ -364,7 +364,7 @@ test("two real active projects render while the résumé keeps the detailed Land
   assert.equal(project.status, "cp2 public · cp3 in progress");
   assert.match(first, /\.\/projects\/01\/.*<h3>landling <span class="secret-target active-project-marker"/s);
   assert.match(first, /currently working on this/);
-  assert.equal((website.match(/class="secret-target active-project-marker"/g) || []).length, 2);
+  assert.equal((website.match(/class="secret-target active-project-marker"/g) || []).length, 3);
   assert.doesNotMatch(first, /project-path-secret|missing image but emotionally present/);
   assert.match(first, /experimental persona model, not nick land himself/);
   assert.match(first, /1,018 effective conversational examples/);
@@ -384,6 +384,15 @@ test("two real active projects render while the résumé keeps the detailed Land
   assert.equal((second.match(/class="project-description"><p>/g) || []).length, 1);
   assert.match(second, /<details class="project-ramble"><summary>\(personal notes \/ writing\)<\/summary><\/details>/);
   assert.doesNotMatch(second, /<dt>(?:year|methods|links|history)<\/dt>|project-image|coming soon|more to come/);
+  const third = website.split('<article class="project-entry project-entry-no-image">')[2].split("</article>")[0];
+  assert.match(third, /\.\/projects\/03\/[^]*?<h3>doxa <span class="secret-target active-project-marker"/);
+  assert.match(third, /<dt>status<\/dt><dd>early prototype · in active development<\/dd><dt>year<\/dt><dd>2026<\/dd>/);
+  assert.match(third, /a local first experimental framework for studying how language model agents handle evidence, disagreement, and belief revision/);
+  assert.equal((third.match(/<dd class="project-description"><p>/g) || []).length, 1);
+  assert.equal((third.match(/<p>/g) || []).length, 3);
+  assert.match(third, /href="https:\/\/github\.com\/clarezahermetica\/doxa"[^>]*>\[source \/ github ↗\]<\/a>/);
+  assert.doesNotMatch(third, /<dt>(?:methods|history)<\/dt>|project-image/);
+  assert.match(website, /class="project-entry project-entry-no-image project-entry-placeholder"[^]*?\.\/projects\/04\/[^]*?<h3>\[future project\]<\/h3>/);
   assert.doesNotMatch(website, /\[project name 02\]|\[project name 03\]/);
   assert.equal(context.window.siteContent.memotifs.tooltips.projects, "only the first little buds. more things are growing. ♡");
   assert.doesNotMatch(html, /work will go here; the scaffolding is real/);
@@ -391,22 +400,14 @@ test("two real active projects render while the résumé keeps the detailed Land
   assert.match(printedProjects, /Language-model persona development.*Qwen2\.5-7B-Instruct QLoRA adapter.*1,018 conversational training examples.*model evaluation/s);
   assert.match(printedProjects, /href="https:\/\/github\.com\/clarezahermetica\/landling"/);
   assert.match(printedProjects, /href="https:\/\/huggingface\.co\/clarezahermetica\/landling-3\.0-cp2"/);
+  assert.doesNotMatch(printedProjects, /doxa|future project/);
   assert.doesNotMatch(printedProjects, /3\.0-cp3|v1|v2|mindless rambles|rather lengthy account|only the first little buds/);
 });
 
-test("Cal Hacks teammate note toggles on click and closes with Escape", () => {
-  const programList = element("#program-list");
-  const button = { attrs: new Map(), closest() { return this; }, getAttribute(name) { return this.attrs.get(name); }, setAttribute(name, value) { this.attrs.set(name, value); } };
-  programList.contains = (node) => node === button;
-  programList.querySelectorAll = () => [button];
-  programList.handlers.click({ target: button });
-  assert.equal(button.getAttribute("aria-expanded"), "true");
-  programList.handlers.click({ target: button });
-  assert.equal(button.getAttribute("aria-expanded"), "false");
-  programList.handlers.click({ target: button });
-  documentHandlers.keydown({ key: "Escape" });
-  assert.equal(button.getAttribute("aria-expanded"), "false");
-  assert.match(css, /\.teammate-invite:focus-within \.teammate-message/);
+test("Cal Hacks is attended on the printable résumé without the old teammate prompt", () => {
+  const printed = element("#resume-content").innerHTML;
+  assert.match(printed, /Cal Hacks 13\.0<\/strong><span>October 23–25, 2026<\/span>[^]*?attended · San Francisco, California/);
+  assert.doesNotMatch(printed, /Accepted — upcoming|need teammates/);
 });
 
 test("the document opens as a small homepage and quote slots are dispersed", () => {
@@ -479,7 +480,7 @@ test("personal copy and tiny cleanup stay in place", () => {
   assert.deepEqual(Array.from(context.window.siteContent.changelog), ["v0.1 — file created", "v0.2 — opened it up", "v0.3 — moved more things around"]);
   assert.match(element("#currently-list").innerHTML, /scheming.*citation needed.*evidence withheld :3/);
   assert.match(element("#project-list").innerHTML, /<details class="project-ramble">/);
-  assert.equal((element("#project-list").innerHTML.match(/\(personal notes \/ writing\)/g) || []).length, 2);
+  assert.equal((element("#project-list").innerHTML.match(/\(personal notes \/ writing\)/g) || []).length, 3);
   assert.equal(element("#motif-reveal").textContent, "[nothing important. i just wanted you to find something.] 🪷");
   assert.match(html, /id="confetti-button" class="party-button">\[click me\]<\/button>/);
   assert.match(html, /<figcaption>me\.gif<\/figcaption>/);

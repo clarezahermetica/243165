@@ -215,6 +215,38 @@ window.siteContent = {
       history: [],
       ramble: "",
       image: ""
+    },
+    {
+      name: "doxa",
+      active: true,
+      year: "2026",
+      status: "early prototype · in active development",
+      summary: "a local first experimental framework for studying how language model agents handle evidence, disagreement, and belief revision",
+      description: [
+        "what happens when an agent encounters something that should change its mind. does it revise its position, defend it, ignore the evidence, or simply agree with whoever spoke last?",
+        "doxa is my attempt to build somewhere to investigate these questions through structured experiments, with records of agents' claims, supporting evidence, criticism, and revisions that can be inspected and compared.",
+        "originally started for cal hacks, it has since become a longer undertaking than the weekend i'd budgeted for it. the current public version is an unfinished proof of concept; i'm still developing and testing it. : )"
+      ],
+      methods: [],
+      links: { github: "https://github.com/clarezahermetica/doxa" },
+      linkLabels: { github: "[source / github ↗]" },
+      history: [],
+      ramble: "",
+      image: ""
+    },
+    {
+      name: "[future project]",
+      placeholder: true,
+      active: false,
+      year: "",
+      status: "",
+      summary: "",
+      description: [],
+      methods: [],
+      links: {},
+      history: [],
+      ramble: "",
+      image: ""
     }
   ],
   writing: [],
@@ -273,15 +305,13 @@ window.siteContent = {
     {
       category: "program",
       name: "Cal Hacks 13.0",
-      status: "Accepted — upcoming",
+      status: "attended",
       dates: "October 23–25, 2026",
       location: "San Francisco, California",
-      teammates: {
-        prompt: "[need teammates?]",
-        heading: "going to cal hacks too?",
-        message: "i need teammates!! if you're going and need one, please hit me up. i don't bite :3",
-        emailSubject: "Cal Hacks 13.0 teammates"
-      }
+      links: [
+        { label: "[project / doxa ↗]", url: "https://github.com/clarezahermetica/doxa" },
+        { label: "[photos / tumblr ↗]", url: "https://www.tumblr.com/243165/831938833923915776/of-montreal-the-past-is-a-grotesque-animal-cal" }
+      ]
     }
   ],
   volunteer: [
